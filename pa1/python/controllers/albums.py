@@ -1,9 +1,9 @@
-
+from utils import appendKey
 from flask import *
 
 albums = Blueprint('albums', __name__, template_folder='views')
 
-@albums.route('/albums/edit')
+@albums.route(appendKey('/albums/edit'))
 def albums_edit_route():
 	options = {
 		"edit": True
@@ -11,7 +11,7 @@ def albums_edit_route():
 	return render_template("albums.html", **options)
 
 
-@albums.route('/albums')
+@albums.route(appendKey('/albums'))
 def albums_route():
 	options = {
 		"edit": False
