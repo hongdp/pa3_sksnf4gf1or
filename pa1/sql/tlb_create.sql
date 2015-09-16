@@ -18,20 +18,20 @@ CREATE TABLE Album (
 );
 
 
-CREATE TABLE Contain (
-       albumid int,
-       picid varchar(40),
-       caption varchar(255),
-       sequencenum int,
-       FOREIGN KEY (albumid) REFERENCES Album(albumid),
-       FOREIGN KEY (picid) REFERENCES Photo(picid),
-       PRIMARY KEY (albumid, picid)
-);
-
 CREATE TABLE Photo (
        picid varchar(40),
        url varchar(255),
        format char(3),
        date date,
        PRIMARY KEY (picid)
+);
+
+CREATE TABLE Contain (
+       albumid int,
+       picid varchar(40),
+       caption varchar(255),
+       sequencenum int AUTO_INCREMENT,
+       FOREIGN KEY (albumid) REFERENCES Album(albumid),
+       FOREIGN KEY (picid) REFERENCES Photo(picid),
+       PRIMARY KEY (albumid, picid)
 );
