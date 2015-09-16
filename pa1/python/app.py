@@ -1,17 +1,13 @@
 from flask import Flask, render_template
 import controllers
-from utils import mysql
+from utils import mysql, configApp
 
 app = Flask(__name__, template_folder='views', static_url_path='/static')
 
 app.register_blueprint(controllers.album)
 app.register_blueprint(controllers.albums)
 app.register_blueprint(controllers.pic)
-app.register_blueprint(controllers.main)
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'r4t5y6u7'
-app.config['MYSQL_DB'] = 'group88'
-app.config['MYSQL_HOST'] = 'localhost'
+configApp(app)
 mysql.init_app(app)
 
 # comment this out using a WSGI like gunicorn
