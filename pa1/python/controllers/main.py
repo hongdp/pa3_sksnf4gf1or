@@ -1,4 +1,4 @@
-from utils import appendKey, mysql
+from utils import appendKey, mysql, secretKey
 from flask import *
 # -*- coding: utf-8 -*-
 
