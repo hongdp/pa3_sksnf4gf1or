@@ -1,10 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
-    <h1>ALBUMS</h1>
-    <p class="important">
-      Welcome!
-    </p>
-    {% if edit %}
-        <div> This is only on the edit page </div>
-    {% endif %}
+  <h1>ALBUMS</h1>
+  <table style="width:100%">
+    <th>
+      <td>Album Name</td>
+      {% if edit %}
+      <td>Edit</td>
+      <td>Delete</td>
+      {% endif %}
+    </th>
+      {% for album in albums %}
+      <td>{{album[1]}}</td>
+      {% if edit %}
+      <td><a class="btn btn-default" href="../album/edit?id={{album[0]}}">Edit</a></td>
+      <td>Delete</td>
+      {% endif %}
+      {% endfor %}
+  </table>
+  {% if edit %}
+    <div> This is only on the edit page </div>
+  {% endif %}
 {% endblock %}
