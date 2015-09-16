@@ -13,7 +13,7 @@ CREATE TABLE Album (
        created date,
        lastupdated date,
        username varchar(20),
-       FOREIGN KEY (username) REFERENCES User(username),
+       FOREIGN KEY (username) REFERENCES User(username) ON DELETE CASCADE,
        PRIMARY KEY (albumid)
 );
 
@@ -31,7 +31,8 @@ CREATE TABLE Contain (
        picid varchar(40),
        caption varchar(255),
        sequencenum int AUTO_INCREMENT,
-       FOREIGN KEY (albumid) REFERENCES Album(albumid),
-       FOREIGN KEY (picid) REFERENCES Photo(picid),
+       FOREIGN KEY (albumid) REFERENCES Album(albumid) ON DELETE CASCADE ,
+       FOREIGN KEY (picid) REFERENCES Photo(picid) ON DELETE CASCADE,
        PRIMARY KEY (albumid, picid)
+       KEY (sequencenum)
 );

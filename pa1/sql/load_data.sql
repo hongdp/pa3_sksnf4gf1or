@@ -1,6 +1,6 @@
-INSERT INTO User(userame, firstname, lastname, password, email) VALUES('sportslover', 'Paul', 'Walker', '', 'sportslover@hotmail.com');
-INSERT INTO User(userame, firstname, lastname, password, email) VALUES('traveler', 'Rebecca', 'Travolta', '', 'ret@explorer.org');
-INSERT INTO User(userame, firstname, lastname, password, email) VALUES('spacejunkie', 'Bob', 'Spacey', '', 'bspace@spacejunkies.net');
+INSERT INTO User(username, firstname, lastname, password, email) VALUES('sportslover', 'Paul', 'Walker', '', 'sportslover@hotmail.com');
+INSERT INTO User(username, firstname, lastname, password, email) VALUES('traveler', 'Rebecca', 'Travolta', '', 'ret@explorer.org');
+INSERT INTO User(username, firstname, lastname, password, email) VALUES('spacejunkie', 'Bob', 'Spacey', '', 'bspace@spacejunkies.net');
 
 INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES ('1', 'I love sports', '2015-09-15', '2015-09-15', 'sportslover');
 INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES ('2', 'I love football', '2015-09-15', '2015-09-15', 'sportslover');
@@ -57,7 +57,7 @@ INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('1', 'sports_
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('1', 'sports_s8', 'sports8', '8');
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_EiffelTower', 'world1', '1');
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_firenze', 'world2', '2');
-INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_GreatWall', 'world3', '3')
+INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_GreatWall', 'world3', '3');
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_Isfahan', 'world4', '4');
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_Istanbul', 'world5', '5');
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_Persepolis', 'world6', '6');
