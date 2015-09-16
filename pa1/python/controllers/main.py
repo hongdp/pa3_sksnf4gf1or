@@ -1,4 +1,4 @@
-from utils import appendKey, mysql
+from utils import appendKey, mysql, secretKey
 from flask import *
 # -*- coding: utf-8 -*-
 
@@ -9,4 +9,4 @@ def main_route():
 	cur = mysql.connection.cursor()
 	cur.execute("SELECT username FROM User")
 	msgs = cur.fetchall()
-	return render_template("index.html", usernames=msgs)
+	return render_template("index.html", usernames=msgs, secretKey=secretKey)
