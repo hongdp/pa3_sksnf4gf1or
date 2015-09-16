@@ -2,7 +2,7 @@
 from flask import Flask, render_template
 import controllers
 
-app = Flask(__name__, template_folder='views')
+app = Flask(__name__, template_folder='views', static_url_path='/static')
 
 app.register_blueprint(controllers.album)
 app.register_blueprint(controllers.albums)
