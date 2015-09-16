@@ -33,6 +33,6 @@ CREATE TABLE Contain (
        sequencenum int AUTO_INCREMENT,
        FOREIGN KEY (albumid) REFERENCES Album(albumid) ON DELETE CASCADE ,
        FOREIGN KEY (picid) REFERENCES Photo(picid) ON DELETE CASCADE,
-       PRIMARY KEY (albumid, picid)
+       PRIMARY KEY (albumid, picid),
        KEY (sequencenum)
 );
