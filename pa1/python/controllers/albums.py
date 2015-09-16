@@ -1,4 +1,4 @@
-from utils import appendKey
+from utils import appendKey, mysql
 from flask import *
 
 albums = Blueprint('albums', __name__, template_folder='views')
@@ -13,7 +13,12 @@ def albums_edit_route():
 
 @albums.route(appendKey('/albums'))
 def albums_route():
+
+	username = request.args.get('username')
+	cur = mysql.connection.cursor()
+	cur.execute("SELECT * FROM Album WHERE username =\'" + username+"\'")
+	msgs = cur.fetchall()
 	options = {
 		"edit": False
 	}
-	return render_template("albums.html", **options)
+	return render_template("albums.html", albums=msgs, **options)

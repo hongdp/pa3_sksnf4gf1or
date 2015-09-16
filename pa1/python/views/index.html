@@ -4,7 +4,7 @@
     <h1>Welcome to The Great Album Wall!</h1>
     <p>Please choose a user:</p>
     {% for username in usernames %}
-        <li><a href="/albums?username={{username[0]}}">{{ username[0] }}</a></li>
+        <li><a href="./albums?username={{username[0]}}">{{ username[0] }}</a></li>
     {% endfor %}
   </div>
 {% endblock %}
