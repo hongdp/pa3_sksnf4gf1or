@@ -2,20 +2,23 @@
 {% block content %}
   <h1>ALBUMS</h1>
   <table style="width:100%">
-    <th>
-      <td>Album Name</td>
+    <tr>
+      <th>Album Name</th>
       {% if edit %}
-      <td>Edit</td>
-      <td>Delete</td>
+      <th>Edit</th>
+      <th>Delete</th>
       {% endif %}
-    </th>
-      {% for album in albums %}
+    </tr>
+
+    {% for album in albums %}
+    <tr>
       <td>{{album[1]}}</td>
       {% if edit %}
       <td><a class="btn btn-default" href="../album/edit?id={{album[0]}}">Edit</a></td>
       <td>Delete</td>
       {% endif %}
-      {% endfor %}
+    </tr>
+    {% endfor %}
   </table>
   {% if edit %}
     <div> This is only on the edit page </div>

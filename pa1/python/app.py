@@ -4,6 +4,7 @@ from utils import mysql, configApp
 
 app = Flask(__name__, template_folder='views', static_url_path='/static')
 
+app.register_blueprint(controllers.main)
 app.register_blueprint(controllers.album)
 app.register_blueprint(controllers.albums)
 app.register_blueprint(controllers.pic)
