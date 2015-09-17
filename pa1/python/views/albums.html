@@ -26,7 +26,7 @@
       {% if edit %}
       <td><a class="btn btn-default" href="../album/edit?id={{album[0]}}">Edit</a></td>
       <td>
-        <form action="./edit" method="POST" enctype="application/x-www-form-urlencoded">
+        <form action="./edit?username={{username}}" method="POST" enctype="application/x-www-form-urlencoded">
           <input type="text" name="op" value="delete" hidden></input>
           <input type="number" name="albumid" value="{{album[0]}}" hidden></input>
           <button class="btn btn-default" type="submit">Delete</input>
