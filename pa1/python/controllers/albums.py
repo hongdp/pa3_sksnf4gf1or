@@ -5,10 +5,14 @@ albums = Blueprint('albums', __name__, template_folder='views')
 
 @albums.route(appendKey('/albums/edit'))
 def albums_edit_route():
+	username = request.args.get('username')
+	cur = mysql.connection.cursor()
+	cur.execute("SELECT * FROM Album WHERE username =\'" + username+"\'")
+	msgs = cur.fetchall()
 	options = {
 		"edit": True
 	}
-	return render_template("albums.html", **options)
+	return render_template("albums.html", albums=msgs, **options)
 
 
 @albums.route(appendKey('/albums'))
