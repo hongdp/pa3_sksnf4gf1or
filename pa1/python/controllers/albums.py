@@ -13,10 +13,14 @@ def albums_edit_route():
 		if request.form['op'] == 'delete':
 			cur.execute("DELETE FROM Album WHERE albumid = \'" + request.form['albumid'] +"\'")	
 		if request.form['op'] == 'add':
+			title = request.form['title']
 			date = time.strftime('%Y-%m-%d', time.gmtime())
-			sqlcode = "INSERT INTO Album (title, created, lastupdated, username) VALUES ('%s', '%s', '%s', '%s')" % (request.form['title'], date, date, username)
-			print sqlcode
+			sqlcode = "INSERT INTO Album (title, created, lastupdated, username) VALUES ('%s', '%s', '%s', '%s')" % (title, date, date, username)
 			cur.execute(sqlcode)
+			cur.execute("SELECT LAST_INSERT_ID()")
+			id = cur.fetchall()
+			con.commit()
+			return redirect("/album/edit?id=%d"%(id[0]))
 	cur.execute("SELECT * FROM Album WHERE username =\'" + username+"\'")
 	msgs = cur.fetchall()
 	con.commit()
