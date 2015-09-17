@@ -11,7 +11,7 @@ def albums_edit_route():
 	cur = con.cursor()
 	if request.method == 'POST':
 		if request.form['op'] == 'delete':
-			cur.execute("DELETE FROM Album WHERE albumid = \'" + request.form['albumid'] +"\'")	
+			cur.execute("DELETE FROM Album WHERE albumid = '%s'"%(request.form['albumid']))	
 		if request.form['op'] == 'add':
 			title = request.form['title']
 			date = time.strftime('%Y-%m-%d', time.gmtime())
@@ -20,8 +20,8 @@ def albums_edit_route():
 			cur.execute("SELECT LAST_INSERT_ID()")
 			id = cur.fetchall()
 			con.commit()
-			return redirect("/album/edit?id=%d"%(id[0]))
-	cur.execute("SELECT * FROM Album WHERE username =\'" + username+"\'")
+			return redirect(appendKey("/album/edit?id=%d"%(id[0])))
+	cur.execute("SELECT * FROM Album WHERE username ='%s'"%(username))
 	msgs = cur.fetchall()
 	con.commit()
 	options = {
@@ -34,7 +34,7 @@ def albums_edit_route():
 def albums_route():
 	username = request.args.get('username')
 	cur = mysql.connection.cursor()
-	cur.execute("SELECT * FROM Album WHERE username =\'" + username+"\'")
+	cur.execute("SELECT * FROM Album WHERE username ='%s'"%(username))
 	msgs = cur.fetchall()
 	options = {
 		"edit": False
