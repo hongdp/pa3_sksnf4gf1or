@@ -4,6 +4,11 @@
     <p class="important">
       Welcome!
     </p>
+    {% for album in albums %}
+
+        <li> {{album[1]}} </li>
+    {% endfor %}
+
     {% if edit %}
         <div> This is only on the edit page </div>
     {% endif %}
