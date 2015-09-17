@@ -1,14 +1,25 @@
 from utils import appendKey, mysql
 from flask import *
+import time
 
 albums = Blueprint('albums', __name__, template_folder='views')
 
 @albums.route(appendKey('/albums/edit'), methods=['GET', 'POST'])
 def albums_edit_route():
 	username = request.args.get('username')
-	cur = mysql.connection.cursor()
+	con = mysql.connection
+	cur = con.cursor()
+	if request.method == 'POST':
+		if request.form['op'] == 'delete':
+			cur.execute("DELETE FROM Album WHERE albumid = \'" + request.form['albumid'] +"\'")	
+		if request.form['op'] == 'add':
+			date = time.strftime('%Y-%m-%d', time.gmtime())
+			sqlcode = "INSERT INTO Album (title, created, lastupdated, username) VALUES ('%s', '%s', '%s', '%s')" % (request.form['title'], date, date, username)
+			print sqlcode
+			cur.execute(sqlcode)
 	cur.execute("SELECT * FROM Album WHERE username =\'" + username+"\'")
 	msgs = cur.fetchall()
+	con.commit()
 	options = {
 		"edit": True
 	}
