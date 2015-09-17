@@ -12,7 +12,7 @@ def albums_edit_route():
 	options = {
 		"edit": True
 	}
-	return render_template("albums.html", albums=msgs, **options)
+	return render_template("albums.html", albums=msgs, username = username, **options)
 
 
 @albums.route(appendKey('/albums'))
@@ -25,4 +25,4 @@ def albums_route():
 	options = {
 		"edit": False
 	}
-	return render_template("albums.html", albums=msgs, **options)
+	return render_template("albums.html", username = username, albums=msgs, **options)
