@@ -13,10 +13,10 @@
   </div>
   <div class="row">
     <div class="col-xs-6">
-      <a class="btn btn-primary" href="./album?id={{prev}}" style="float:left">Back to album</a></h1>
+      <a class="btn btn-primary {% if not prev %}disabled{% endif %}" href="./pic?id={{prev}}" style="float:left">Prev</a></h1>
     </div>
     <div class="col-xs-6">
-      <a class="btn btn-primary" href="./album?id={{next}}" style="float:right">Back to album</a></h1>
+      <a class="btn btn-primary {% if not next %}disabled{% endif %}" href="./pic?id={{next}}" style="float:right">Next</a></h1>
     </div>
   </div>
 </div>

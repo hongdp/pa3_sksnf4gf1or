@@ -21,6 +21,7 @@ def pic_route():
 
 	prev = ''
 	nxt = ''
+	
 	if msgs3:
 		prev = msgs3[-1][0]
 

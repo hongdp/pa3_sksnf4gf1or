@@ -18,9 +18,11 @@
 </div>
 <div class="col-xs-1">
   <h1>
-    <a class="btn btn-default" href="../albums?username={{username}}">
+    {% if not edit %}
+    <a class="btn btn-default" href="./">
       back
     </a>
+    {% endif %}
   </h1>
 </div>
   <table class="table">
