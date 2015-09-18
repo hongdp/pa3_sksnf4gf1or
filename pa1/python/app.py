@@ -1,7 +1,7 @@
 from flask import Flask, render_template
 import controllers
 from utils import mysql, configApp
-
+import os
 app = Flask(__name__, template_folder='views', static_url_path='/static')
 
 
