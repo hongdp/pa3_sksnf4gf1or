@@ -1,10 +1,40 @@
 from utils import appendKey, mysql
 from flask import *
+import hashlib
+import os
+import time
 
 album = Blueprint('album', __name__, template_folder='views')
 
-@album.route(appendKey('/album/edit'))
+
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'bmp', 'gif'])
+
+def allowed_file(filename):
+	return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
+@album.route(appendKey('/album/edit'), methods=['GET', 'POST'])
 def album_edit_route():
+
+	albumid = request.args.get('id')
+	con = mysql.connection
+	cur = con.cursor()
+	#add img to static/img
+	if request.method == 'POST':
+		#add img to static/img
+		if request.form['op'] == 'add':
+			file = request.files['file']
+
+			if file and allow_file(file.filename):
+				format = file.filename.rsplit('.', 1)[1])
+				date = time.strftime('%Y-%m-%d', time.gmtime())
+				picid = hashlib.sha224(file.filename+date)
+				picname = picid + '.' + format)
+				url = '/static/img/'+picname
+				file.save(os.path.join('/static/img/',picname)
+				# sqlcode = "INSERT INTO Album (title, created, lastupdated, username) VALUES ('%s', '%s', '%s', '%s')" % (title, date, date, username)
+				# cur.execute(sqlcode)
+
+
 	options = {
 		"edit": True
 	}

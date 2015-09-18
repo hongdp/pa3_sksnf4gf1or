@@ -30,7 +30,7 @@ CREATE TABLE Contain (
        albumid int,
        picid varchar(40),
        caption varchar(255),
-       sequencenum int AUTO_INCREMENT,
+       sequencenum int,
        FOREIGN KEY (albumid) REFERENCES Album(albumid) ON DELETE CASCADE ,
        FOREIGN KEY (picid) REFERENCES Photo(picid) ON DELETE CASCADE,
        PRIMARY KEY (albumid, picid),
