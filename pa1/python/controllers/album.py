@@ -16,12 +16,14 @@ def album_route():
 	albumid = request.args.get('id')
 	cur = mysql.connection.cursor()
 	cur.execute("SELECT Photo.picid, url FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
-	msgs = cur.fetchall()
-	cur.execute("SELECT title FROM Album WHERE albumid = '%s'" %(albumid))
-	msgs1 = cur.fetchall()
+	photos = cur.fetchall()
+	cur.execute("SELECT username, title FROM Album WHERE albumid = '%s'" %(albumid))
+	albumInfo = cur.fetchall()
 	options = {
 		"edit": False,
-		"photos": msgs,
-		"albumname":msgs1[0]
+		"photos": photos,
+		"username": albumInfo[0][0],
+		"albumname":albumInfo[0][1]
 	}
+	print options
 	return render_template("album.html", **options)
