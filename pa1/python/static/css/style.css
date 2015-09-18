@@ -20,6 +20,13 @@ body {
 .button-right {
   float:right;
 }
+
+.img-with-max-size{
+  max-width: 720px;
+  max-height: 660px;
+  margin-left: auto;
+  margin-right: auto;
+}
 /*@media screen and (min-width: 768px) {
    
   .header,
