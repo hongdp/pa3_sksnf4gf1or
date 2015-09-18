@@ -13,6 +13,8 @@ def album_edit_route():
 @album.route(appendKey('/album'))
 def album_route():
 	options = {
-		"edit": False
+		"edit": False,
+		"photos": [[0, "/static/img/football_s1.jpg"]],
+		"albumName": "HELLO"
 	}
 	return render_template("album.html", **options)
