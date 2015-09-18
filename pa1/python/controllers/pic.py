@@ -6,6 +6,7 @@ pic = Blueprint('pic', __name__, template_folder='views')
 @pic.route(appendKey('/pic'))
 def pic_route():
 	pic_id = request.args.get('id')
+	print pic_id
 	cur = mysql.connection.cursor()
 	cur.execute("SELECT url FROM Photo WHERE Photo.picid = '%s'" %(pic_id))
 	msgs = cur.fetchall()
@@ -21,7 +22,7 @@ def pic_route():
 
 	prev = ''
 	nxt = ''
-	
+
 	if msgs3:
 		prev = msgs3[-1][0]
 

@@ -27,12 +27,29 @@ def album_edit_route():
 			if file and allowed_file(file.filename):
 				format = file.filename.rsplit('.', 1)[1]
 				date = time.strftime('%Y-%m-%d', time.gmtime())
-				picid = hashlib.sha224(file.filename+date).hexdigest()
+				curtime = time.strftime('%Y-%m-%d-%H-%M-%S', time.gmtime())
+				picid = hashlib.sha224(file.filename+curtime).hexdigest()
 				picname = picid + '.' + format
 				url = '/static/img/'+picname
 				file.save(os.path.join(UPLOAD_FOLDER,picname))
-				# sqlcode = "INSERT INTO Album (title, created, lastupdated, username) VALUES ('%s', '%s', '%s', '%s')" % (title, date, date, username)
-				# cur.execute(sqlcode)
+
+
+				seqnum = 1
+				sqlphoto = "INSERT INTO Photo (picid, url, format, date) VALUES ('%s', '%s', '%s', '%s')" % (picid, url, format, date)
+				cur.execute(sqlphoto)
+				con.commit()
+
+				cur.execute("SELECT MAX(sequencenum) FROM Contain WHERE Contain.albumid = %s" %(albumid))
+				maxseq = cur.fetchall()[0][0]
+				if maxseq:
+					seqnum = maxseq+1
+
+				sqlcontain = "INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES(%s, '%s', '', %d )" %(albumid, picid, seqnum)
+				cur.execute(sqlcontain)
+				con.commit()
+
+
+
 
 	cur.execute("SELECT Photo.picid, url FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
 	photos = cur.fetchall()
