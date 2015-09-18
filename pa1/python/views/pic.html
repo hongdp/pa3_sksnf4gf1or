@@ -4,12 +4,20 @@
   <div class="col-xs-9">
   </div>
   <div class="col-xs-3">
-    <h1><a class="btn btn-default" href="./album?id={{albumid[0]}}" >Back to ablum</a></h1>
+    <h1><a class="btn btn-default" href="./album?id={{albumid[0]}}" >Back to album</a></h1>
   </div>
-  <div>
-    <p class="important">
-      <img class="img-responsive" src="{{url[0]}}" alt="">
-    </p>
+  <div class="row">
+    <div class="col-xs-12">
+        <img class="img-responsive" style="width:100%" src="{{url[0]}}" alt="">
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-6">
+      <a class="btn btn-primary" href="./album?id={{prev}}" style="float:left">Back to album</a></h1>
+    </div>
+    <div class="col-xs-6">
+      <a class="btn btn-primary" href="./album?id={{next}}" style="float:right">Back to album</a></h1>
+    </div>
   </div>
 </div>
 {% endblock %}
