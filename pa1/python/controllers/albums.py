@@ -20,7 +20,6 @@ def albums_edit_route():
 			cur.execute("SELECT LAST_INSERT_ID()")
 			id = cur.fetchall()
 			con.commit()
-			return redirect(appendKey("/album/edit?id=%d"%(id[0])))
 	cur.execute("SELECT * FROM Album WHERE username ='%s'"%(username))
 	msgs = cur.fetchall()
 	con.commit()
