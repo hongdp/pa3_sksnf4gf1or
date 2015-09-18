@@ -29,9 +29,16 @@
   {% for photo in photos %}
   <div class="col-lg-3 col-md-4 col-xs-6 thumb">
       <div class="row">
+        {% if edit %}
+        <div class="thumbnail">
+            <img class="img-responsive" src="{{photo[1]}}" alt=""/>
+        </div>
+        {% else %}
         <a class="thumbnail" href="./pic?id={{photo[0]}}">
             <img class="img-responsive" src="{{photo[1]}}" alt=""/>
         </a>
+        {% endif %}
+        
       </div>
       {% if edit %}
       <div class="row">
