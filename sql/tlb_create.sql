@@ -36,3 +36,25 @@ CREATE TABLE Contain (
        PRIMARY KEY (albumid, picid),
        KEY (sequencenum)
 );
+
+DELIMITER $$
+CREATE TRIGGER test_trigger
+AFTER INSERT ON Contain
+FOR EACH ROW BEGIN
+    UPDATE Album
+       SET Album.lastupdated=CURDATE()
+     WHERE Album.albumid=NEW.albumid;
+END;$$
+DELIMITER ;
+
+
+
+DELIMITER $$
+CREATE TRIGGER delete_trigger
+AFTER DELETE ON Contain
+FOR EACH ROW BEGIN
+    UPDATE Album
+       SET Album.lastupdated=CURDATE()
+     WHERE Album.albumid=OLD.albumid;
+END;$$
+DELIMITER ;
