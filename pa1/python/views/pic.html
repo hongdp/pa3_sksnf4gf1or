@@ -1,7 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="row">
+  <div class="col-lg-9">
     <h1>PIC</h1>
+  </div>
+  <div class="col-lg-3">
+    <a class="btn btn-default" href="./album?id={{albumid[0]}}" style="float:right">
+      Back to ablum
+    </a>
+  </div>
+  <div>
     <p class="important">
-      Welcome!
+      <img class="img-responsive" src="{{url[0]}}" alt="">
     </p>
+  </div>
+</div>
 {% endblock %}
