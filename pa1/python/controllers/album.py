@@ -15,7 +15,7 @@ def album_route():
 
 	albumid = request.args.get('id')
 	cur = mysql.connection.cursor()
-	cur.execute("SELECT url FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
+	cur.execute("SELECT picid, url FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
 	msgs = cur.fetchall()
 	cur.execute("SELECT title FROM Album WHERE albumid = '%s'" %(albumid))
 	msgs1 = cur.fetchall()
