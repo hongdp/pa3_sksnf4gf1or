@@ -6,10 +6,13 @@ pic = Blueprint('pic', __name__, template_folder='views')
 @pic.route(appendKey('/pic'))
 def pic_route():
 	pic_id = request.args.get('id')
+	
 	print pic_id
 	cur = mysql.connection.cursor()
 	cur.execute("SELECT url FROM Photo WHERE Photo.picid = '%s'" %(pic_id))
 	msgs = cur.fetchall()
+	if not msgs:
+		abort(404)
 	cur.execute("SELECT albumid FROM Contain WHERE Contain.picid = '%s'" %(pic_id))
 	msgs1 = cur.fetchall()
 

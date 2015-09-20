@@ -8,8 +8,14 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 @albums.route(appendKey('/albums/edit'), methods=['GET', 'POST'])
 def albums_edit_route():
     username = request.args.get('username')
+    if not username:
+        abort(404)
     con = mysql.connection
     cur = con.cursor()
+    cur.execute("SELECT * FROM Album WHERE username ='%s'"%(username))
+    msgs = cur.fetchall()
+    if not msgs:
+        abort(404)
     if request.method == 'POST':
         if request.form['op'] == 'delete':
             albumid = request.form['albumid']
@@ -44,8 +50,7 @@ def albums_edit_route():
             cur.execute("SELECT LAST_INSERT_ID()")
             id = cur.fetchall()
             con.commit()
-    cur.execute("SELECT * FROM Album WHERE username ='%s'"%(username))
-    msgs = cur.fetchall()
+    
     con.commit()
     options = {
         "edit": True
@@ -56,9 +61,14 @@ def albums_edit_route():
 @albums.route(appendKey('/albums'), methods=['GET'])
 def albums_route():
     username = request.args.get('username')
-    cur = mysql.connection.cursor()
+    if not username:
+        abort(404)
+    con = mysql.connection
+    cur = con.cursor()
     cur.execute("SELECT * FROM Album WHERE username ='%s'"%(username))
     msgs = cur.fetchall()
+    if not msgs:
+        abort(404)
     options = {
         "edit": False
     }

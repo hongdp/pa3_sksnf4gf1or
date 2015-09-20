@@ -10,15 +10,24 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'bmp', 'gif'])
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = os.path.join(APP_ROOT, '../static/pictures')
 def allowed_file(filename):
-    filename.lower()
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    lowerFileName = filename.lower()
+    print 
+    return '.' in lowerFileName and lowerFileName.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @album.route(appendKey('/album/edit'), methods=['GET', 'POST'])
 def album_edit_route():
 
     albumid = request.args.get('id')
+    if not albumid:
+        abort(404)
     con = mysql.connection
     cur = con.cursor()
+    cur.execute("SELECT albumid FROM Album WHERE albumid=%s"%(albumid))
+    album = cur.fetchall()
+    if not album:
+        abort(404)
+    
+    
     #add picture to static/pictures
     if request.method == 'POST':
         #add picture to static/pictures
@@ -67,13 +76,6 @@ def album_edit_route():
             url = ".." + url
             os.remove(os.path.join(APP_ROOT, url))
 
-
-
-
-
-
-
-
     cur.execute("SELECT Photo.picid, url FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
     photos = cur.fetchall()
     cur.execute("SELECT username, title FROM Album WHERE albumid = '%s'" %(albumid))
@@ -91,7 +93,13 @@ def album_edit_route():
 def album_route():
 
     albumid = request.args.get('id')
+    if not albumid:
+        abort(404)
     cur = mysql.connection.cursor()
+    cur.execute("SELECT albumid FROM Album WHERE albumid=%s"%(albumid))
+    album = cur.fetchall()
+    if not album:
+        abort(404)
     cur.execute("SELECT Photo.picid, url FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
     photos = cur.fetchall()
     cur.execute("SELECT username, title FROM Album WHERE albumid = '%s'" %(albumid))

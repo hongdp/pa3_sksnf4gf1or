@@ -9,6 +9,11 @@ app.register_blueprint(controllers.main)
 app.register_blueprint(controllers.album)
 app.register_blueprint(controllers.albums)
 app.register_blueprint(controllers.pic)
+
+@app.errorhandler(404)
+def page_not_found(error):
+	return render_template('page_not_found.html'), 404
+
 configApp(app)
 mysql.init_app(app)
 
