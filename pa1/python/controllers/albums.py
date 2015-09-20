@@ -12,10 +12,7 @@ def albums_edit_route():
         abort(404)
     con = mysql.connection
     cur = con.cursor()
-    cur.execute("SELECT * FROM Album WHERE username ='%s'"%(username))
-    msgs = cur.fetchall()
-    if not msgs:
-        abort(404)
+    
     if request.method == 'POST':
         if request.form['op'] == 'delete':
             albumid = request.form['albumid']
@@ -50,7 +47,10 @@ def albums_edit_route():
             cur.execute("SELECT LAST_INSERT_ID()")
             id = cur.fetchall()
             con.commit()
-    
+    cur.execute("SELECT * FROM Album WHERE username ='%s'"%(username))
+    msgs = cur.fetchall()
+    if not msgs:
+        abort(404)
     con.commit()
     options = {
         "edit": True
