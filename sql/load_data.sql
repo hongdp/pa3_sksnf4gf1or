@@ -36,7 +36,7 @@ INSERT INTO Photo (picid, url, format, date) VALUES ('world_Stonehenge', '/stati
 INSERT INTO Photo (picid, url, format, date) VALUES ('world_TajMahal', '/static/pictures/world_TajMahal.jpg', 'jpg', '2015-09-15');
 INSERT INTO Photo (picid, url, format, date) VALUES ('world_TelAviv', '/static/pictures/world_TelAviv.jpg', 'jpg', '2015-09-15');
 INSERT INTO Photo (picid, url, format, date) VALUES ('world_tokyo', '/static/pictures/world_tokyo.jpg', 'jpg', '2015-09-15');
-INSERT INTO Photo (picid, url, format, date) VALUES ('world_WashingtonDC', '/static/pictu`/world_WashingtonDC.jpg', 'jpg', '2015-09-15');
+INSERT INTO Photo (picid, url, format, date) VALUES ('world_WashingtonDC', '/static/pictures/world_WashingtonDC.jpg', 'jpg', '2015-09-15');
 
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('2', 'football_s1', 'football1', '1');
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('2', 'football_s2', 'football2','2');
