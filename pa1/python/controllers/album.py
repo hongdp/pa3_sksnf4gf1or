@@ -10,6 +10,7 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'bmp', 'gif'])
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = os.path.join(APP_ROOT, '../static/pictures')
 def allowed_file(filename):
+    filename.lower()
     return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @album.route(appendKey('/album/edit'), methods=['GET', 'POST'])
