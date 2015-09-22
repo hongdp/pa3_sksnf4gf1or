@@ -2,3 +2,5 @@
 *.pyc
 .DS_Store
 /pa1/python/static/pictures
+/pa1/python/static/img
+/pa1/python/utils/configApp.py
