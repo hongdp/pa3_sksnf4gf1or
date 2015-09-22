@@ -1,5 +1,5 @@
 INSERT INTO User(username, firstname, lastname, password, email) VALUES('sportslover', 'Paul', 'Walker', '', 'sportslover@hotmail.com');
-INSERT INTO User(username, firstname, lastname, password, email) VALUES('traveler', 'Rebecca', 'Travolta', '', 'ret@explorer.org');
+INSERT INTO User(username, firstname, lastname, password, email) VALUES('traveler', 'Rebecca', 'Travolta', '', 'rebt@explorer.org');
 INSERT INTO User(username, firstname, lastname, password, email) VALUES('spacejunkie', 'Bob', 'Spacey', '', 'bspace@spacejunkies.net');
 
 INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES ('1', 'I love sports', '2015-09-15', '2015-09-15', 'sportslover');
