@@ -42,7 +42,7 @@ def album_edit_route():
                 picname = picid + '.' + format
                 url = '/static/pictures/'+picname
                 if not os.path.exists(UPLOAD_FOLDER):
-                    os.mkdirs(UPLOAD_FOLDER)
+                    os.makedirs(UPLOAD_FOLDER)
                 file.save(os.path.join(UPLOAD_FOLDER,picname))
 
 
