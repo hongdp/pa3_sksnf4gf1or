@@ -41,6 +41,8 @@ def album_edit_route():
                 picid = hashlib.sha224(file.filename+curtime).hexdigest()
                 picname = picid + '.' + format
                 url = '/static/pictures/'+picname
+                if not os.path.exists(UPLOAD_FOLDER):
+                    os.mkdirs(UPLOAD_FOLDER)
                 file.save(os.path.join(UPLOAD_FOLDER,picname))
 
 
