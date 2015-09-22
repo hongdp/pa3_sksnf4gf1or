@@ -2,7 +2,7 @@ CREATE TABLE User(
        username VARCHAR(20),
        firstname VARCHAR(20),
        lastname VARCHAR(20),
-       password VARCHAR(40),
+       password VARCHAR(20),
        email VARCHAR(40),
        PRIMARY KEY (username)
 );
