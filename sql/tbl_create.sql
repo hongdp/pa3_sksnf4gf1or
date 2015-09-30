@@ -13,6 +13,7 @@ CREATE TABLE Album (
        created date,
        lastupdated date,
        username varchar(20),
+       access varchar(10),
        FOREIGN KEY (username) REFERENCES User(username) ON DELETE CASCADE,
        PRIMARY KEY (albumid)
 );
@@ -35,6 +36,14 @@ CREATE TABLE Contain (
        FOREIGN KEY (picid) REFERENCES Photo(picid) ON DELETE CASCADE,
        PRIMARY KEY (albumid, picid),
        KEY (sequencenum)
+);
+
+CREATE TABLE AlbumAccess(
+       albumid int,
+       username varchar(20),
+       FOREIGN KEY (username) REFERENCES User(username) ON DELETE CASCADE,
+       FOREIGN KEY (albumid) REFERENCES Album(albumid) ON DELETE CASCADE,
+       PRIMARY KEY (albumid, username)
 );
 
 DELIMITER $$
