@@ -17,3 +17,8 @@ def login_func():
         print url;
         return redirect(url)
     return render_template('login.html')
+
+@login.route(appendKey('/logout'), methods=['GET', 'POST'])
+def logout_func():
+    session.clear();
+    return redirect(url_for('main.main_route'))
