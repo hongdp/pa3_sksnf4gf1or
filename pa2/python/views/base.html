@@ -14,10 +14,10 @@
       <nav>
         <ul class="nav nav-pills pull-right">
           <li role="preseentation" class="active"><a href="/sksnf4gf1or/pa2/">Home</a></li>
-          {％ if hasLoginButton %}
+          {% if hasLoginButton %}
           <li role="presentation" class="active"><a href='/sksnf4gf1or/pa2/login?url={{request.url}}'>login</a></li>
           {% endif %}
-          {％ if hasLogoutButton %}
+          {% if hasLogoutButton %}
           <li role="presentation" class="active"><a href='logout'>logout</a></li>
           {% endif %}
         </ul>
