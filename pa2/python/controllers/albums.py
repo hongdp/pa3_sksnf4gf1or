@@ -1,4 +1,4 @@
-from utils import appendKey, mysql
+from utils import *
 from flask import *
 import time, os
 
@@ -61,16 +61,23 @@ def albums_edit_route():
 
 @albums.route(appendKey('/albums'), methods=['GET'])
 def albums_route():
-    username = request.args.get('username')
-    if not username:
-        abort(404)
+    username = ''
     con = mysql.connection
     cur = con.cursor()
-    cur.execute("SELECT * FROM User WHERE username='%s'"%(username))
-    user = cur.fetchall()
-    if not user:
-        abort(404)
-    cur.execute("SELECT * FROM Album WHERE username ='%s'"%(username))
+    msgs = {}
+    if sessionIsValid(session):
+        username = session['username']
+
+        cur.execute("SELECT * FROM Album WHERE username='%s'"%(username))
+        msgs = cur.fetchall()
+        options = {
+            "edit": False
+        }
+        return render_template("albums.html", username = username, albums=msgs, **options)
+    elif sessionIsExpired(session):
+		session.clear()
+
+    cur.execute("SELECT * FROM Album WHERE access ='public'")
     msgs = cur.fetchall()
     options = {
         "edit": False

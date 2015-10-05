@@ -8,9 +8,13 @@
     <p>Member? Please login <a href='/sksnf4gf1or/pa2/login?url={{request.url}}'> here </a></p>
     <p>New user? Join us <a href='./user'>here</a>!</p>
     {% endif %}
-    <p>Albums:<p>
-    {% for album in albums %}
+    {% if username %}
+      <p><a href="./albums">My Albums</a><p>
+    {% else %}
+      <p><a href="./albums">Public Albums</a><p>
+    {% endif %}
+    <!-- {% for album in albums %}
         <li><a href="./album?id={{album[0]}}">{{ album[1] }}</a></li>
-    {% endfor %}
+    {% endfor %} -->
   </div>
 {% endblock %}
