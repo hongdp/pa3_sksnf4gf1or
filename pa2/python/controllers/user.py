@@ -1,4 +1,4 @@
-from utils import appendKey, mysql
+from utils import *
 from flask import *
 import hashlib
 import os
@@ -15,6 +15,7 @@ def reg():
             cur.execute("INSERT INTO User VALUES ('%s', '%s', '%s', '%s', '%s')" % (request.form['username'], \
             request.form['firstname'], request.form['lastname'], request.form['password'], request.form['email']) )
             session['username'] = request.form['username']
+            renewSession(session)
             con.commit()
             return redirect(url_for('main.main_route'))
 

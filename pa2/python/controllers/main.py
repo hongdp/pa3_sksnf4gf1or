@@ -9,10 +9,12 @@ def main_route():
 	con = mysql.connection
 	cur = con.cursor()
 	if sessionIsValid(session):
-		cur.execute("SELECT albumid, title FROM Album WHERE access='public' OR username='%s' UNION SELECT albumid, title FROM AlbumAccess, Album WHERE AlbumAccess.albumid = Album.albumid AND AlbumAccess.username='%s'"%(session['username'], session['username']))
+		cur.execute("SELECT albumid, title FROM Album WHERE access='public' OR username='%s' UNION SELECT Album.albumid, title FROM AlbumAccess, Album WHERE AlbumAccess.albumid = Album.albumid AND AlbumAccess.username='%s'"%(session['username'], session['username']))
+		albums = cur.fetchall()
 		hasLoginButton = False
 		hasLogoutButton = True
-		return render_template("index.html", usernames=session[username], hasLoginButton=hasLoginButton, hasLogoutButton=hasLogoutButton, albums=albums)
+		print session['username']
+		return render_template("index.html", username=session['username'], hasLoginButton=hasLoginButton, hasLogoutButton=hasLogoutButton, albums=albums)
 	elif sessionIsExpired(session):
 		session.clear()
 	cur.execute("SELECT albumid, title FROM Album WHERE access='public'")
