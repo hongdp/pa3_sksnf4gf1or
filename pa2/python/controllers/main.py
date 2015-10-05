@@ -9,19 +9,16 @@ def main_route():
 	con = mysql.connection
 	cur = con.cursor()
 	if sessionIsValid(session):
-		cur.execute("SELECT albumid, title FROM Album WHERE access='public' OR username='%s' UNION SELECT Album.albumid, title FROM AlbumAccess, Album WHERE AlbumAccess.albumid = Album.albumid AND AlbumAccess.username='%s'"%(session['username'], session['username']))
+		renewSession(session)
+		cur.execute("SELECT albumid, title FROM (SELECT albumid, title, username FROM Album WHERE access='public' OR username='%s' UNION SELECT Album.albumid as albumid, title, Album.username FROM AlbumAccess, Album WHERE AlbumAccess.albumid = Album.albumid AND AlbumAccess.username='%s') as t1 ORDER BY username"%(session['username'], session['username']))
 		albums = cur.fetchall()
-		hasLoginButton = False
-		hasLogoutButton = True
 		print session['username']
-		return render_template("index.html", username=session['username'], hasLoginButton=hasLoginButton, hasLogoutButton=hasLogoutButton, albums=albums)
+		return render_template("index.html", username=session['username'], login=True, albums=albums)
 	elif sessionIsExpired(session):
 		session.clear()
-	cur.execute("SELECT albumid, title FROM Album WHERE access='public'")
+	cur.execute("SELECT albumid, title FROM Album WHERE access='public' ORDER BY username")
 	albums = cur.fetchall()
-	hasLogoutButton = False
-	hasLoginButton = True
-	return render_template("index.html", hasLoginButton=hasLoginButton, hasLogoutButton=hasLogoutButton, albums=albums)
+	return render_template("index.html", login=False, albums=albums)
 
 	
 
