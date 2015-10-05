@@ -10,6 +10,8 @@ app.register_blueprint(controllers.album)
 app.register_blueprint(controllers.albums)
 app.register_blueprint(controllers.pic)
 app.register_blueprint(controllers.login)
+app.register_blueprint(controllers.user)
+
 
 app.secret_key = '\xe8/\x04Y\x13x>\x99\xfd\xfb4!\x11\x8b\xb2\xd3\x9b\xd6\xe7\x96Q\xf0\xfa8'
 
