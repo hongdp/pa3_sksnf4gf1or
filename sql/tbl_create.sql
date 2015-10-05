@@ -56,11 +56,39 @@ FOR EACH ROW BEGIN
 END;$$
 DELIMITER ;
 
-
-
 DELIMITER $$
 CREATE TRIGGER delete_trigger
 AFTER DELETE ON Contain
+FOR EACH ROW BEGIN
+    UPDATE Album
+       SET Album.lastupdated=CURDATE()
+     WHERE Album.albumid=OLD.albumid;
+END;$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER delete_trigger
+AFTER UPDATE ON Contain
+FOR EACH ROW BEGIN
+    UPDATE Album
+       SET Album.lastupdated=CURDATE()
+     WHERE Album.albumid=OLD.albumid;
+END;$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER test_trigger
+AFTER INSERT ON AlbumAccess
+FOR EACH ROW BEGIN
+    UPDATE Album
+       SET Album.lastupdated=CURDATE()
+     WHERE Album.albumid=NEW.albumid;
+END;$$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER delete_trigger
+AFTER DELETE ON AlbumAccess
 FOR EACH ROW BEGIN
     UPDATE Album
        SET Album.lastupdated=CURDATE()

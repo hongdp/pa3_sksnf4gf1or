@@ -67,11 +67,12 @@ def albums_route():
     msgs = {}
     if sessionIsValid(session):
         username = session['username']
-
+        renewSession(session)
         cur.execute("SELECT * FROM Album WHERE username='%s'"%(username))
         msgs = cur.fetchall()
         options = {
-            "edit": False
+            "edit": False,
+            "login": True
         }
         return render_template("albums.html", username = username, albums=msgs, **options)
     elif sessionIsExpired(session):

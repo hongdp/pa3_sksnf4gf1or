@@ -14,13 +14,13 @@
       <nav>
         <ul class="nav nav-pills pull-right">
           <li role="preseentation" class="active"><a href="/sksnf4gf1or/pa2/">Home</a></li>
-          {% if not hideLogin and not login %}
-          <li role="presentation" class="active"><a href='/sksnf4gf1or/pa2/user/login?url={{request.url}}'>Login</a></li>
-          {% endif %}
           {% if login %}
           <li role="presentation" class="active"><a href='/sksnf4gf1or/pa2/albums'>My Albums</a></li>
           {% else %}
           <li role="presentation" class="active"><a href='/sksnf4gf1or/pa2/albums'>Public Albums</a></li>
+          {% endif %}
+          {% if not hideLogin and not login %}
+          <li role="presentation" class="active"><a href='/sksnf4gf1or/pa2/user/login?url={{request.url}}'>Login</a></li>
           {% endif %}
           {% if login %}
           <li role="presentation" class="active"><a href='/sksnf4gf1or/pa2/user/logout'>Logout</a></li>
