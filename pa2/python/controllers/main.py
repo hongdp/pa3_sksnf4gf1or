@@ -8,6 +8,7 @@ main = Blueprint('main', __name__, template_folder='views')
 def main_route():
 	con = mysql.connection
 	cur = con.cursor()
+	username = ''
 	if sessionIsValid(session):
 		renewSession(session)
 		cur.execute("SELECT albumid, title FROM (SELECT albumid, title, username FROM Album WHERE access='public' OR username='%s' UNION SELECT Album.albumid as albumid, title, Album.username FROM AlbumAccess, Album WHERE AlbumAccess.albumid = Album.albumid AND AlbumAccess.username='%s') as t1 ORDER BY username"%(session['username'], session['username']))
@@ -19,8 +20,6 @@ def main_route():
 	cur.execute("SELECT albumid, title FROM Album WHERE access='public' ORDER BY username")
 	albums = cur.fetchall()
 	return render_template("index.html", login=False, albums=albums)
-
-	
 
 
 #
