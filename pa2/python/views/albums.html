@@ -2,7 +2,7 @@
 {% block content %}
 <div class="row">
   <div class="col-xs-6 col-md-8 col-lg-10">
-    <h1>ALBUMS</h1>
+    <h1>{% if not username %}PUBLIC {% else %} {{username}}'s {% endif %} ALBUMS</h1>
   </div>
   <div class="col-xs-3 col-md-2 col-lg-1">
     <h1>
@@ -60,9 +60,8 @@
         NEW: <input type="text" name="title" placeholder="Input title of new album here"></input>
         <button class="btn btn-default" type="submit">Add</button>
       </form>
-    </td>    
+    </td>
     {% endif %}
   </table>
 </div>
 {% endblock %}
-
