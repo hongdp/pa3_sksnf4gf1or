@@ -1,13 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-  <div>
+<div class="panel panel-info">
+  <div class = "panel-heading">
+    <h3><center>Login</center></h3>
+  </div>
+  <div class="panel-body">
+
+
     {% if error %}
       <p class=error><strong>Error:</strong> {{ error }}
     {% endif %}
-    <form method="POST" action"">
+
+    <form role="form" method ="POST">
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" name="username" id ="username">
+      </div>
+      <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control" name="password" id="pwd">
+      </div>
+
+      <center><button type="submit" class="btn btn-default">Submit</button></center>
+    </form>
+
+
+    <!-- <form method="POST" action"">
        username: <input type = 'text' name='username'>
        password: <input type = 'password' name='password'>
       <input type = 'submit' value ='Login'>
-    </form>
+    </form> -->
   </div>
+</div>
 {% endblock %}
