@@ -7,28 +7,32 @@
   <title>EECS485</title>
 </head>
 <body>
-  
+
 
   <div class="container">
     <div class="header clearfix">
       <nav>
         <ul class="nav nav-pills pull-right">
-          <li role="preseentation" class="active"><a href="/sksnf4gf1or/pa1/">Home</a></li>
-          <li role="presentation" class="hidden"><a href="">About</a></li>
-          <li role="presentation" class="hidden"><a href="">Contact</a></li>
+          <li role="preseentation" class="active"><a href="/sksnf4gf1or/pa2/">Home</a></li>
+          {% if hasLoginButton %}
+          <li role="presentation" class="active"><a href='/sksnf4gf1or/pa2/login?url={{request.url}}'>login</a></li>
+          {% endif %}
+          {% if hasLogoutButton %}
+          <li role="presentation" class="active"><a href='logout'>logout</a></li>
+          {% endif %}
         </ul>
       </nav>
-      <h3 class="text-muted"><a href="/sksnf4gf1or/pa1/">The Great Album Wall</a></h3>
+      <h3 class="text-muted"><a href="/sksnf4gf1or/pa2/">The Great Album Wall</a></h3>
     </div>
 
     {% block content %}{% endblock %}
-  
+
     <footer class="footer">
       <p>© J.P.H. Inc. 2015</p>
-    </footer>  
+    </footer>
   </div>
 
-  
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   <script type="text/javascript" src="/static/js/main.js"></script>
   <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>

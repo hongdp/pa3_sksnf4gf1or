@@ -1,4 +1,4 @@
-from utils import appendKey, mysql, secretKey
+from utils import *
 from flask import *
 # -*- coding: utf-8 -*-
 
@@ -9,19 +9,18 @@ def main_route():
 	cur = mysql.connection.cursor()
 	cur.execute("SELECT username FROM User")
 	msgs = cur.fetchall()
-	return render_template("index.html", usernames=msgs)
+	if 'username' in session:
+		hasLoginButton = False
+		hasLogoutButton = True
+	else:
+		hasLogoutButton = False
+		hasLoginButton = True
+	return render_template("index.html", usernames=msgs, hasLoginButton=hasLoginButton, hasLogoutButton=hasLogoutButton)
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        session['username'] = request.form['username']
-        return redirect(url_for('index'))
-    return ''
-
-
-@app.route('/logout')
-def logout():
-    # remove the username from the session if it's there
-    session.pop('username', None)
-    return redirect(url_for('index'))
+#
+# @app.route('/logout')
+# def logout():
+#     # remove the username from the session if it's there
+#     session.pop('username', None)
+#     return redirect(url_for('index'))
