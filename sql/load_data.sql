@@ -1,11 +1,11 @@
-INSERT INTO User(username, firstname, lastname, password, email) VALUES('sportslover', 'Paul', 'Walker', '', 'sportslover@hotmail.com');
-INSERT INTO User(username, firstname, lastname, password, email) VALUES('traveler', 'Rebecca', 'Travolta', '', 'rebt@explorer.org');
-INSERT INTO User(username, firstname, lastname, password, email) VALUES('spacejunkie', 'Bob', 'Spacey', '', 'bspace@spacejunkies.net');
+INSERT INTO User(username, firstname, lastname, password, email) VALUES('sportslover', 'Paul', 'Walker', 'paulpass93', 'sportslover@hotmail.com');
+INSERT INTO User(username, firstname, lastname, password, email) VALUES('traveler', 'Rebecca', 'Travolta', 'rebeccapass15', 'rebt@explorer.org');
+INSERT INTO User(username, firstname, lastname, password, email) VALUES('spacejunkie', 'Bob', 'Spacey', 'bob1pass', 'bspace@spacejunkies.net');
 
-INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES ('1', 'I love sports', '2015-09-15', '2015-09-15', 'sportslover');
-INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES ('2', 'I love football', '2015-09-15', '2015-09-15', 'sportslover');
-INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES ('3', 'Around The World', '2015-09-15', '2015-09-15', 'traveler');
-INSERT INTO Album (albumid, title, created, lastupdated, username) VALUES ('4', 'Cool Space Shots', '2015-09-15', '2015-09-15', 'spacejunkie');
+INSERT INTO Album (albumid, title, created, lastupdated, username, access) VALUES ('1', 'I love sports', '2015-09-15', '2015-09-15', 'sportslover', 'public');
+INSERT INTO Album (albumid, title, created, lastupdated, username, access) VALUES ('2', 'I love football', '2015-09-15', '2015-09-15', 'sportslover', 'public');
+INSERT INTO Album (albumid, title, created, lastupdated, username, access) VALUES ('3', 'Around The World', '2015-09-15', '2015-09-15', 'traveler', 'public');
+INSERT INTO Album (albumid, title, created, lastupdated, username, access) VALUES ('4', 'Cool Space Shots', '2015-09-15', '2015-09-15', 'spacejunkie', 'private');
 
 INSERT INTO Photo (picid, url, format, date) VALUES ('football_s1', '/static/pictures/football_s1.jpg', 'jpg', '2015-09-15');
 INSERT INTO Photo (picid, url, format, date) VALUES ('football_s2', '/static/pictures/football_s2.jpg', 'jpg', '2015-09-15');
@@ -68,3 +68,5 @@ INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_T
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_TelAviv', 'world11', '11');
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_tokyo', 'world12', '12');
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_WashingtonDC', 'world13', '13');
+
+INSERT INTO AlbumAccess (albumid, username) VALUES ('4', 'traveler');
