@@ -1,3 +1,20 @@
+from os import time
+
+def sessionIsValid(session):
+	if 'username' in session and not sessionIsExpired(session):
+		return True
+	return False
+
+def renewSession(session):
+	session['lastActivity'] = int(time.time())
+
+def sessionIsExpired(session):
+	currentTime = int(time.time())
+	if 'lastActivity' in session:
+		if currentTime - session['lastActivity'] <= 300:
+			return False
+	return True
+
 def getUserInfoFromSession(session, mysql):
 	if 'username' in session:
 		ur = mysql.connection.cursor()
@@ -5,7 +22,7 @@ def getUserInfoFromSession(session, mysql):
 		msgs = cur.fetchall()
 		if msgs:
 			return msgs;
-	return None;
+	return [[]];
 
 def checkAccessibilityOfSession(session, mysql, albumid):
 	if 'username' in session:
