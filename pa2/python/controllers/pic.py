@@ -1,4 +1,4 @@
-from utils import appendKey, mysql
+from utils import *
 from flask import *
 
 pic = Blueprint('pic', __name__, template_folder='views')
@@ -15,6 +15,37 @@ def pic_route():
 		abort(404)
 	cur.execute("SELECT albumid FROM Contain WHERE Contain.picid = '%s'" %(pic_id))
 	msgs1 = cur.fetchall()
+# Authentication Codes
+	cur.execute("SELECT albumid, username, access FROM Album WHERE Album.albumid = '%s'"%(msgs1[0][0]))
+	access = cur.fetchall()
+	if access[0][2] == 'private':
+		if sessionExists(session):
+			if sessionIsExpired(session):
+				session.clear();
+				return render_template('sessionExpire.html', login=False)
+			else:
+				if access[0][1] == session['username']:
+					renewSession(session)
+				else:
+					cur.execute("SELECT username FROM AlbumAccess WHERE albumid=%s and username='%s'"%(access[0][0], session['username']))
+					authUser = cur.fetchall()
+					if authUser:
+						renewSession(session)
+					else:
+						return render_template('noAccess.html', login=True)
+		else:
+			return render_template('noLogin.html', login=False)
+	else:
+		if sessionExists(session):
+			if sessionIsExpired(session):
+				print 'session expired'
+				session.clear();
+			else:
+				renewSession(session)
+	login = False
+	if sessionExists(session):
+		login = True
+# Authentication Codes End
 
 	cur.execute("SELECT sequencenum FROM Contain WHERE Contain.picid = '%s'" %(pic_id))
 	msgs2 = cur.fetchall()
@@ -39,7 +70,8 @@ def pic_route():
 		"url":msgs[0],
 		"albumid":msgs1[0],
 		"prev": prev,
-		"next": nxt
+		"next": nxt,
+		"login": login
 	}
 
- 	return render_template("pic.html", **options)
+	return render_template("pic.html", **options)
