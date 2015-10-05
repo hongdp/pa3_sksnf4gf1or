@@ -1,4 +1,4 @@
-from os import time
+import time
 
 def sessionIsValid(session):
 	if 'username' in session and not sessionIsExpired(session):
