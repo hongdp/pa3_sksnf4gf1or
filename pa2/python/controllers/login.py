@@ -15,16 +15,16 @@ def login_func():
     if request.method == 'POST':
         error = None
         username = request.form['username']
+        hash_password = hashlib.sha224(request.form['password']).hexdigest()[0:20]
         con = mysql.connection
         cur = con.cursor()
         cur.execute("SELECT username, password FROM User WHERE username='%s'"%(username))
         userinfo = cur.fetchall()
         if not userinfo:
             error = 'Username does not exist'
-            print error
             return render_template('login.html',error = error)
 
-        if userinfo[0][1] != request.form['password']:
+        if userinfo[0][1] != hash_password:
             error = 'password incorrent'
             return render_template('login.html',error = error)
 
