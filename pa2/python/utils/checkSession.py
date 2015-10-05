@@ -12,6 +12,7 @@ def sessionIsExpired(session):
 	currentTime = int(time.time())
 	if 'lastActivity' in session:
 		if currentTime - session['lastActivity'] <= 300:
+			print currentTime - session['lastActivity']
 			return False
 	return True
 
