@@ -25,6 +25,8 @@ def album_edit_route():
     album = cur.fetchall()
     if not album:
         abort(404)
+
+# Authentication Codes
     if sessionExists(session):
         if sessionIsExpired(session):
             session.clear();
@@ -38,6 +40,8 @@ def album_edit_route():
         return render_template('noLogin.html', login=False)
     if sessionExists(session):
         login = True
+# Authentication Codes End
+
     #add picture to static/pictures
     if request.method == 'POST':
         #add picture to static/pictures
@@ -113,27 +117,22 @@ def album_route():
     album = cur.fetchall()
     if not album:
         abort(404)
-
+# Authentication Codes
     if album[0][2] == 'private':
         if sessionExists(session):
             if sessionIsExpired(session):
                 session.clear();
                 return render_template('sessionExpire.html', login=False)
             else:
-                auth = False
-                if album[1] == session['username']:
-                    auth = True
-                else:
-                    cur.execute("SELECT username FROM AlbumAccess WHERE albumid=%s"%(albumid))
-                    authUsers = cur.fetchall()
-                    for User in authUsers:
-                        if User[0] == session[username]:
-                            auth = True
-                            break
-                if auth == False:
-                    return render_template('noAccess.html', login=True)
-                else:
+                if album[0][1] == session['username']:
                     renewSession(session)
+                else:
+                    cur.execute("SELECT username FROM AlbumAccess WHERE albumid=%s and username='%s'"%(albumid, session['username']))
+                    authUser = cur.fetchall()
+                    if authUser:
+                        renewSession(session)
+                    else:
+                        return render_template('noAccess.html', login=True)
         else:
             return render_template('noLogin.html', login=False)
     else:
@@ -143,8 +142,11 @@ def album_route():
                 session.clear();
             else:
                 renewSession(session)
+    login = False
     if sessionExists(session):
         login = True
+# Authentication Codes End
+
     cur.execute("SELECT Photo.picid, url FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
     photos = cur.fetchall()
     cur.execute("SELECT username, title FROM Album WHERE albumid = '%s'" %(albumid))
