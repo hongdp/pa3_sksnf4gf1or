@@ -117,6 +117,7 @@ def album_route():
     album = cur.fetchall()
     if not album:
         abort(404)
+        
 # Authentication Codes
     if album[0][2] == 'private':
         if sessionExists(session):
