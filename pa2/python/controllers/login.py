@@ -14,11 +14,10 @@ def login_func():
     		return redirect(url)		
     if request.method == 'POST':
         session['username'] = request.form['username']
-        print url;
         return redirect(url)
     return render_template('login.html')
 
-@login.route(appendKey('/logout'), methods=['GET', 'POST'])
+@login.route(appendKey('/logout'), methods=['GET'])
 def logout_func():
     session.clear();
     return redirect(url_for('main.main_route'))

@@ -14,7 +14,6 @@ app.register_blueprint(controllers.user)
 
 
 app.secret_key = os.urandom(24)
-app.permanent_session_lifetime = timedelta(minutes=5)
 
 @app.errorhandler(404)
 def page_not_found(error):
