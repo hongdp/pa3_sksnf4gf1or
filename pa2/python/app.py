@@ -10,6 +10,8 @@ app.register_blueprint(controllers.album)
 app.register_blueprint(controllers.albums)
 app.register_blueprint(controllers.pic)
 app.register_blueprint(controllers.login)
+app.register_blueprint(controllers.user)
+
 
 app.secret_key = os.urandom(24)
 app.permanent_session_lifetime = timedelta(minutes=5)
