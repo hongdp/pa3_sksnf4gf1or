@@ -1,4 +1,4 @@
-from utils import appendKey, mysql
+from utils import *
 from flask import *
 import hashlib
 import os
@@ -16,18 +16,28 @@ def allowed_file(filename):
 
 @album.route(appendKey('/album/edit'), methods=['GET', 'POST'])
 def album_edit_route():
-
     albumid = request.args.get('id')
     if not albumid:
         abort(404)
     con = mysql.connection
     cur = con.cursor()
-    cur.execute("SELECT albumid FROM Album WHERE albumid=%s"%(albumid))
+    cur.execute("SELECT albumid, username FROM Album WHERE albumid=%s"%(albumid))
     album = cur.fetchall()
     if not album:
         abort(404)
-    
-    
+    if sessionExists(session):
+        if sessionIsExpired(session):
+            session.clear();
+            return render_template('sessionExpire.html', login=False)
+        else:
+            if album[0][1] == session['username']:
+                renewSession(session)
+            else:
+                return render_template('noAccess.html', login=True)
+    else:
+        return render_template('noLogin.html', login=False)
+    if sessionExists(session):
+        login = True
     #add picture to static/pictures
     if request.method == 'POST':
         #add picture to static/pictures
@@ -88,6 +98,7 @@ def album_edit_route():
         "username": albumInfo[0][0],
         "albumname":albumInfo[0][1],
         "albumid": albumid,
+        "login": login
     }
     return render_template("album.html", **options)
 
@@ -98,10 +109,42 @@ def album_route():
     if not albumid:
         abort(404)
     cur = mysql.connection.cursor()
-    cur.execute("SELECT albumid FROM Album WHERE albumid=%s"%(albumid))
+    cur.execute("SELECT albumid, username, access FROM Album WHERE albumid=%s"%(albumid))
     album = cur.fetchall()
     if not album:
         abort(404)
+
+    if album[0][2] == 'private':
+        if sessionExists(session):
+            if sessionIsExpired(session):
+                session.clear();
+                return render_template('sessionExpire.html', login=False)
+            else:
+                auth = False
+                if album[1] == session['username']:
+                    auth = True
+                else:
+                    cur.execute("SELECT username FROM AlbumAccess WHERE albumid=%s"%(albumid))
+                    authUsers = cur.fetchall()
+                    for User in authUsers:
+                        if User[0] == session[username]:
+                            auth = True
+                            break
+                if auth == False:
+                    return render_template('noAccess.html', login=True)
+                else:
+                    renewSession(session)
+        else:
+            return render_template('noLogin.html', login=False)
+    else:
+        if sessionExists(session):
+            if sessionIsExpired(session):
+                print 'session expired'
+                session.clear();
+            else:
+                renewSession(session)
+    if sessionExists(session):
+        login = True
     cur.execute("SELECT Photo.picid, url FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
     photos = cur.fetchall()
     cur.execute("SELECT username, title FROM Album WHERE albumid = '%s'" %(albumid))
@@ -112,6 +155,7 @@ def album_route():
         "username": albumInfo[0][0],
         "albumname":albumInfo[0][1],
         "albumid": albumid,
+        "login": login
     }
     print options
     return render_template("album.html", **options)

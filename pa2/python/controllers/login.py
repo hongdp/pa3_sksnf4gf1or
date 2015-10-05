@@ -10,8 +10,9 @@ login = Blueprint('login', __name__, template_folder='views')
 def login_func():
     url = request.args.get('url')
     if request.method == 'GET':
-    	if 'username' in session:
-    		return redirect(url)
+    	if sessionExists(session):
+            renewSession(session)
+            return redirect(url)
     if request.method == 'POST':
         error = None
         username = request.form['username']
@@ -31,10 +32,12 @@ def login_func():
         flash('You were successfully logged in')
         session['username'] = request.form['username']
         renewSession(session)
+        if not url:
+            return redirect(url_for('main.main_route'))
         return redirect(url)
-    return render_template('login.html')
+    return render_template('login.html',  hideLogin=True)
 
-@login.route(appendKey('/logout'), methods=['GET'])
+@login.route(appendKey('/user/logout'), methods=['GET'])
 def logout_func():
     session.clear();
     return redirect(url_for('main.main_route'))

@@ -1,8 +1,12 @@
 import time
+def sessionExists(session):
+	if 'username' in session and 'lastActivity' in session:
+		return True;
+	return False;
 
 def sessionIsValid(session):
 	if 'username' in session and not sessionIsExpired(session):
-		return True
+			return True
 	return False
 
 def renewSession(session):
@@ -22,8 +26,8 @@ def getUserInfoFromSession(session, mysql):
 		cur.execute("SELECT * FROM User WHERE User.username = '%s'" %(session['username']))
 		msgs = cur.fetchall()
 		if msgs:
-			return msgs;
-	return [[]];
+			return msgs
+	return [[]]
 
 def checkAccessibilityOfSession(session, mysql, albumid):
 	if 'username' in session:
@@ -31,5 +35,5 @@ def checkAccessibilityOfSession(session, mysql, albumid):
 		cur.execute("SELECT * FROM AlbumAccess WHERE username = '%s' AND albumid = '%s'" %(session['username'], albumid))
 		msgs = cur.fetchall()
 		if msgs:
-			return True;
-	return False;
+			return True
+	return False
