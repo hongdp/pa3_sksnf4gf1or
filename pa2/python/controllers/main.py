@@ -6,16 +6,24 @@ main = Blueprint('main', __name__, template_folder='views')
 
 @main.route(appendKey('/'))
 def main_route():
-	cur = mysql.connection.cursor()
-	cur.execute("SELECT username FROM User")
-	msgs = cur.fetchall()
-	if 'username' in session:
+	con = mysql.connection
+	cur = con.cursor()
+	if sessionIsValid(session):
+		cur.execute("SELECT albumid, title FROM Album WHERE access='public' OR username='%s' UNION SELECT Album.albumid, title FROM AlbumAccess, Album WHERE AlbumAccess.albumid = Album.albumid AND AlbumAccess.username='%s'"%(session['username'], session['username']))
+		albums = cur.fetchall()
 		hasLoginButton = False
 		hasLogoutButton = True
-	else:
-		hasLogoutButton = False
-		hasLoginButton = True
-	return render_template("index.html", usernames=msgs, hasLoginButton=hasLoginButton, hasLogoutButton=hasLogoutButton)
+		print session['username']
+		return render_template("index.html", username=session['username'], hasLoginButton=hasLoginButton, hasLogoutButton=hasLogoutButton, albums=albums)
+	elif sessionIsExpired(session):
+		session.clear()
+	cur.execute("SELECT albumid, title FROM Album WHERE access='public'")
+	albums = cur.fetchall()
+	hasLogoutButton = False
+	hasLoginButton = True
+	return render_template("index.html", hasLoginButton=hasLoginButton, hasLogoutButton=hasLogoutButton, albums=albums)
+
+	
 
 
 #

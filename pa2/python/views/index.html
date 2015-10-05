@@ -2,12 +2,15 @@
 {% block content %}
   <div class="jumbotron">
     <h1>Welcome to The Great Album Wall!</h1>
-    <p>Member? Please login <a href='/sksnf4gf1or/pa2/user/login?url={{request.url}}'> here </a></p>
+    {% if username %}
+    <p>Hello, {{username}}</p>
+    {% else %}
+    <p>Member? Please login <a href='/sksnf4gf1or/pa2/login?url={{request.url}}'> here </a></p>
     <p>New user? Join us <a href='./user'>here</a>!</p>
-
-    <p>Public albums:<p>
-    <!-- {% for username in usernames %}
-        <li><a href="./albums?username={{username[0]}}">{{ username[0] }}</a></li>
-    {% endfor %} -->
+    {% endif %}
+    <p>Albums:<p>
+    {% for album in albums %}
+        <li><a href="./album?id={{album[0]}}">{{ album[1] }}</a></li>
+    {% endfor %}
   </div>
 {% endblock %}
