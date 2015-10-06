@@ -12,7 +12,10 @@ def login_func():
     if request.method == 'GET':
     	if sessionExists(session):
             renewSession(session)
-            return redirect(url)
+            if url:
+                return redirect(url)
+            else:
+                return redirect(url_for('main.main_route'))
     if request.method == 'POST':
         error = None
         username = request.form['username']
