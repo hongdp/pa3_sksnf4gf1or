@@ -140,12 +140,8 @@ def album_edit_route():
                 else:
                     sqladd = "INSERT INTO AlbumAccess(albumid, username) Values (%s, '%s')" %(albumid, username)
                     cur.execute(sqladd)
-<<<<<<< HEAD
-                    con.commit()
-=======
                     con.commit()
 
->>>>>>> joedai
     cur.execute("SELECT Photo.picid, url, Contain.caption, date FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
 
     photos = cur.fetchall()
