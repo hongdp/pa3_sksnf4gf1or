@@ -25,22 +25,28 @@
     </h1>
   </div>
 </div>
+{% if error %}
+<div class="row">
+<p>{{ error }}</p>
+</div>
+{% endif %}
 <div class="row">
   {% for photo in photos %}
   <div class="col-lg-3 col-md-4 col-xs-6 thumb">
       <div class="row">
         {% if edit %}
-        <div class="thumbnail">
-          <a class="thumbnail" href="./pic?id={{photo[0]}}">
-            <img class="img-responsive" src="{{photo[1]}}" alt=""/>
-          </a>
-        </div>
+        <a class="thumbnail" href="../pic?id={{photo[0]}}">
+          <img class="img-responsive" src="{{photo[1]}}" alt=""/>
+        </a>
         {% else %}
         <a class="thumbnail" href="./pic?id={{photo[0]}}">
             <img class="img-responsive" src="{{photo[1]}}" alt=""/>
         </a>
         {% endif %}
 
+      </div>
+      <div class="row">
+        <p>{{ photo[2] }}</p>
       </div>
       {% if edit %}
       <div class="row">
@@ -63,6 +69,39 @@
     <input type="file" name="file" id="file-upload"/>
     <input class="btn btn-success"type="submit" value="Upload"/>
   </form>
+</div>
+<div class="row">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Username</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in accessUsers %}
+      <tr>
+        <td>{{ user[0] }}</td>
+        <td>
+          <form action="" method="POST" enctype="application/x-www-form-urlencoded">
+            <input type="text" name="op" value="revoke" hidden/>
+            <input type="text" name="username" value="{{user[0]}}" hidden/>
+            <button type="submit" class="btn btn-danger">Revoke</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td colspan="2">
+          <form action="" method="POST" enctype="application/x-www-form-urlencoded">
+            <input type="text" name="op" value="addAccess" hidden></input>
+            NEW: <input type="text" name="username" placeholder="Add New Authenticated User"></input>
+            <button class="btn btn-default" type="submit">Add</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 {% endif %}
 {% endblock %}
