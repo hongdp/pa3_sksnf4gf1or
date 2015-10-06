@@ -7,15 +7,21 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 @albums.route(appendKey('/albums/edit'), methods=['GET', 'POST'])
 def albums_edit_route():
-    username = request.args.get('username')
-    if not username:
-        abort(404)
+# Authentication Codes
+    if sessionExists(session):
+        if sessionIsExpired(session):
+            session.clear();
+            return render_template('sessionExpire.html', login=False)
+        else:
+            username = session['username']
+    else:
+        return render_template('noLogin.html', login=False)
+    if sessionExists(session):
+        login = True
+# Authentication Codes End
     con = mysql.connection
     cur = con.cursor()
-    cur.execute("SELECT * FROM User WHERE username='%s'"%(username))
-    user = cur.fetchall()
-    if not user:
-        abort(404)
+
     if request.method == 'POST':
         if request.form['op'] == 'delete':
             albumid = request.form['albumid']
@@ -45,7 +51,8 @@ def albums_edit_route():
         if request.form['op'] == 'add':
             title = request.form['title']
             date = time.strftime('%Y-%m-%d', time.gmtime())
-            sqlcode = "INSERT INTO Album (title, created, lastupdated, username) VALUES ('%s', '%s', '%s', '%s')" % (title, date, date, username)
+            sqlcode = "INSERT INTO Album (title, created, lastupdated, username, access) \
+            VALUES ('%s', '%s', '%s', '%s', 'private')" % (title, date, date, username)
             cur.execute(sqlcode)
             cur.execute("SELECT LAST_INSERT_ID()")
             id = cur.fetchall()
@@ -56,7 +63,7 @@ def albums_edit_route():
     options = {
         "edit": True
     }
-    return render_template("albums.html", albums=msgs, username = username, **options)
+    return render_template("albums.html", albums=msgs, username = username, login=login, **options)
 
 
 @albums.route(appendKey('/albums'), methods=['GET'])
