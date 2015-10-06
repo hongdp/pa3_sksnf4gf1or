@@ -20,6 +20,7 @@ def edit():
             session.clear()
             return render_template('sessionExpire.html', login=False)
         else:
+            renewSession(session)
             username = session['username']
             cur.execute("SELECT * FROM User WHERE username='%s'"%(username))
             userinfo = cur.fetchall()
