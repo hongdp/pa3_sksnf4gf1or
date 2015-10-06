@@ -42,32 +42,6 @@
     <tr>
       <td><a href="{% if edit %}.{% endif %}./album?id={{album[0]}}">{{album[1]}}</a></td>
       {% if edit %}
-      <td>
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            {{album[5]}}
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li>
-              <form action="" method="POST" enctype="application/x-www-form-urlencoded">
-                <input type="text" name="op" value="access" hidden></input>
-                <input type="text" name="access" value="private" hidden></input>
-                <input type="number" name="albumid" value="{{album[0]}}" hidden></input>
-                <button class="btn btn-default" type="submit">private</input>
-              </form>
-            </li>
-            <li>
-              <form action="" method="POST" enctype="application/x-www-form-urlencoded">
-                <input type="text" name="op" value="access" hidden></input>
-                <input type="text" name="access" value="public" hidden></input>
-                <input type="number" name="albumid" value="{{album[0]}}" hidden></input>
-                <button class="btn btn-default" type="submit">public</input>
-              </form>
-            </li>
-          </ul>
-        </div>
-      </td>
       <td><a class="btn btn-default" href="../album/edit?id={{album[0]}}">Edit</a></td>
       <td>
         <form action="" method="POST" enctype="application/x-www-form-urlencoded">
