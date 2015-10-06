@@ -48,10 +48,10 @@ def deleteUser():
     #   if 'username' in session:
     #       return redirect(url)
     if not sessionExists(session):
-        return render_template("noLogin.html")
+        return render_template("noLogin.html", login = False), 403
     elif sessionIsExpired(session):
         session.clear()
-        return render_template("sessionExpire.html")
+        return render_template("sessionExpire.html", login=False)
 
     username = session['username']
     con = mysql.connection
