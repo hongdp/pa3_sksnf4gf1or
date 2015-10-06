@@ -11,7 +11,7 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = os.path.join(APP_ROOT, '../static/pictures')
 def allowed_file(filename):
     lowerFileName = filename.lower()
-    print 
+    print
     return '.' in lowerFileName and lowerFileName.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @album.route(appendKey('/album/edit'), methods=['GET', 'POST'])
@@ -37,9 +37,9 @@ def album_edit_route():
             login = True
             renewSession(session)
             if album[0][1] != session['username']:
-                return render_template('noAccess.html', login=True)
+                return render_template('noAccess.html', login=True), 403
     else:
-        return render_template('noLogin.html', login=False)
+        return render_template('noLogin.html', login=False), 403
 # Authentication Codes End
 
     #add picture to static/pictures
@@ -141,9 +141,9 @@ def album_edit_route():
                 else:
                     sqladd = "INSERT INTO AlbumAccess(albumid, username) Values (%s, '%s')" %(albumid, username)
                     cur.execute(sqladd)
-                    con.commit()
-        
+                    con.commit()        
     cur.execute("SELECT Photo.picid, url, Contain.caption, date FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
+
     photos = cur.fetchall()
     cur.execute("SELECT username, title, access FROM Album WHERE albumid = %s" %(albumid))
     albumInfo = cur.fetchall()
@@ -190,9 +190,9 @@ def album_route():
                     authUser = cur.fetchall()
                     renewSession(session)
                     if not authUser:
-                        return render_template('noAccess.html', login=True)
+                        return render_template('noAccess.html', login=True), 403
         else:
-            return render_template('noLogin.html', login=False)
+            return render_template('noLogin.html', login=False), 403
     else:
         if sessionExists(session):
             if sessionIsExpired(session):

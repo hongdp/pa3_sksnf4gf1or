@@ -15,7 +15,7 @@ def edit():
     if request.method == 'GET':
     #auth code
         if not sessionExists(session):
-            return render_template('noLogin.html', login=False)
+            return render_template('noLogin.html', login=False), 403
         elif sessionIsExpired(session):
             session.clear()
             return render_template('sessionExpire.html', login=False)
@@ -26,7 +26,7 @@ def edit():
             userinfo = cur.fetchall()
             if not userinfo:
                 session.clear();
-                return render_template('noLogin.html', login=False)
+                return render_template('noLogin.html', login=False), 403
             else:
                 options = {
                     "login": True,
@@ -37,7 +37,7 @@ def edit():
 
     else:
         if not sessionExists(session):
-            return render_template('noLogin.html', login=False)
+            return render_template('noLogin.html', login=False), 403
         elif sessionIsExpired(session):
             session.clear()
             return render_template('sessionExpire.html', login=False)
