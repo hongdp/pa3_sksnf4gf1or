@@ -12,6 +12,15 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-xs-12">
+      <form action="" method="POST">
+        <label for="pwd">Caption:</label>
+        <input type="text" class="form-control" name="caption" value="{{caption}}">
+        <button type="submit" class="btn btn-default">Save</button>
+      </form>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-xs-6">
       <a class="btn btn-primary {% if not prev %}disabled{% endif %}" href="./pic?id={{prev}}" style="float:left">Prev</a></h1>
     </div>
