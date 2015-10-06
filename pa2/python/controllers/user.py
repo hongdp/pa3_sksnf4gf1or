@@ -35,8 +35,7 @@ def reg():
         hash_password = hashlib.sha224(request.form['password']).hexdigest()
 
         msg = Message('welcome!', recipients=[request.form['email']])
-        msg.body = 'Congratulation! Your just started journey to the Great Album Wall!\
-        Please click the link below to jump on the trip!\n'
+        msg.body = 'Congratulation! Your just started journey to the Great Album Wall! Please click the link below to jump on the trip!'
         home_url = request.base_url
         home_url = home_url[:-5]
         msg.body += home_url
