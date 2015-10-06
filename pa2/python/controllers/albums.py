@@ -65,6 +65,8 @@ def albums_route():
     con = mysql.connection
     cur = con.cursor()
     msgs = {}
+
+    # Authentication Codes 
     if sessionIsValid(session):
         username = session['username']
         renewSession(session)
@@ -77,7 +79,8 @@ def albums_route():
         return render_template("albums.html", username = username, albums=msgs, **options)
     elif sessionIsExpired(session):
 		session.clear()
-
+    # Authentication Codes End
+    
     cur.execute("SELECT * FROM Album WHERE access ='public'")
     msgs = cur.fetchall()
     options = {
