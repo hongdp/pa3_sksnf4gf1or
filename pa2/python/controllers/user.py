@@ -35,7 +35,12 @@ def reg():
         hash_password = hashlib.sha224(request.form['password']).hexdigest()
 
         msg = Message('welcome!', recipients=[request.form['email']])
-        msg.body = 'Congratulation! Your just started journey to the Great Album Wall!'
+        msg.body = 'Congratulation! Your just started journey to the Great Album Wall!\
+        Please click the link below to jump on the trip!\n'
+        home_url = request.base_url
+        home_url = home_url[:-5]
+        msg.body += home_url
+        print request.base_url
         mail.send(msg)
 
         cur.execute("INSERT INTO User VALUES ('%s', '%s', '%s', '%s', '%s')" % (request.form['username'], \
@@ -86,7 +91,7 @@ def forgetPassword():
     if request.method == 'POST':
         username = request.form['username']
         password = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(8))
-        print password
+        # print password
         hash_password = hashlib.sha224(password).hexdigest()
         con = mysql.connection
         cur = con.cursor()

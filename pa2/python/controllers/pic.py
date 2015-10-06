@@ -37,7 +37,7 @@ def pic_route():
 		else:
 			if sessionExists(session):
 				if sessionIsExpired(session):
-					print 'session expired'
+					# print 'session expired'
 					session.clear();
 				else:
 					renewSession(session)
