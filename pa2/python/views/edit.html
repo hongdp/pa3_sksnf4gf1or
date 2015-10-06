@@ -25,6 +25,7 @@
       <div class="form-group">
         <label for="re-pwd">re-type password:</label>
         <input type="password" class="form-control" name="re-password" id="re-pwd">
+        <span id='message'></span>
       </div>
 
       <div class="form-group">
@@ -42,7 +43,7 @@
         <input maxlength="40" required title="at most 40 char" type="email" class="form-control" name="email" id ="email" value="{{ userinfo[4] }}">
       </div>
 
-      <center><button type="submit" class="btn btn-default">Save</button></center>
+      <center><button id='submit' type="submit" class="btn btn-default">Save</button></center>
     </form>
 
     <form role="form" method="POST" action="./delete">
@@ -52,5 +53,16 @@
 </div>
 
 </div>
+
+<script>
+  $('#pwd, #re-pwd').on('keyup', function () {
+    if ($('#pwd').val() == $('#re-pwd').val()) {
+      $('#message').html('Password Match').css('color', 'green');
+      $('#submit').prop("disabled",false);
+    } else{
+    $('#message').html('Password do not match').css('color', 'red');
+    $('#submit').prop("disabled",true);}
+  });
+</script>
 
 {% endblock %}
