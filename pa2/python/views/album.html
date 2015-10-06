@@ -31,14 +31,16 @@
       <div class="row">
         {% if edit %}
         <div class="thumbnail">
+          <a class="thumbnail" href="./pic?id={{photo[0]}}">
             <img class="img-responsive" src="{{photo[1]}}" alt=""/>
+          </a>
         </div>
         {% else %}
         <a class="thumbnail" href="./pic?id={{photo[0]}}">
             <img class="img-responsive" src="{{photo[1]}}" alt=""/>
         </a>
         {% endif %}
-        
+
       </div>
       {% if edit %}
       <div class="row">

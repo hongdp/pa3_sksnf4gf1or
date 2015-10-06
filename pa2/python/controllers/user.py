@@ -11,9 +11,9 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 def reg():
 
     # redirect to user/edit
-    # if request.method == 'GET':
-    # 	if 'username' in session:
-    # 		return redirect(url)
+    if request.method == 'GET':
+        if 'username' in session:
+     	      return redirect(url_for('useredit.edit'))
 
     if request.method == 'POST':
         error = None
