@@ -15,7 +15,7 @@ def albums_edit_route():
         else:
             username = session['username']
     else:
-        return render_template('noLogin.html', login=False)
+        return render_template('noLogin.html', login=False), 403
     if sessionExists(session):
         login = True
 # Authentication Codes End
