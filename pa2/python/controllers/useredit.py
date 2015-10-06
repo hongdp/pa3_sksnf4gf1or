@@ -20,15 +20,15 @@ def edit():
         return render_template('sessionExpire.html', login=False)
     else:
         username = session['username']
-        cur.execute("SELECT * FROM User WHERE username=%s"%(username))
+        cur.execute("SELECT * FROM User WHERE username='%s'"%(username))
         userinfo = cur.fetchall()
         if not userinfo:
             session.clear();
             return render_template('noLogin.html', login=False)
         else:
             options = {
-                "login": True
-                "userinfo": userinfo
+                "login": True,
+                "userinfo": userinfo[0]
             }
 
     return render_template("edit.html", **options)

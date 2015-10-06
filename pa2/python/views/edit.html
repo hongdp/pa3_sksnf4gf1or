@@ -3,7 +3,7 @@
 
 <div class="panel panel-warning">
   <div class = "panel-heading">
-    <h3><center>Register</center></h3>
+    <h3><center>Edit Profile</center></h3>
   </div>
   <div class="panel-body">
 
@@ -15,7 +15,7 @@
     <form role="form" method ="POST">
       <div class="form-group">
         <label for="username">Username:</label>
-        <input pattern="[A-Za-z0-9_]{3,20}" required title="3 characters at least and can only have letters, digits, and underscores" type="text" class="form-control disabled" name="username" id ="username" value="{{ user[0] }}">
+        <input pattern="[A-Za-z0-9_]{3,20}" required title="3 characters at least and can only have letters, digits, and underscores" type="text" class="form-control" name="username" id ="username" value="{{ userinfo[0] }}" disabled>
       </div>
       <div class="form-group">
         <label for="pwd">Password:</label>
@@ -29,23 +29,24 @@
 
       <div class="form-group">
         <label for="firstname">Firstname:</label>
-        <input pattern=".{1,20}" required title="at most 20 char" type="text" class="form-control" name="firstname" id="firstname" value="{{ user[1] }}">
+        <input pattern=".{1,20}" required title="at most 20 char" type="text" class="form-control" name="firstname" id="firstname" value="{{ userinfo[1] }}">
       </div>
 
       <div class="form-group">
         <label for="lastname">Lastname:</label>
-        <input pattern=".{1,20}" required title="at most 20 char" type="text" class="form-control" name="lastname" id ="lastname" value="{{ user[2] }}">
+        <input pattern=".{1,20}" required title="at most 20 char" type="text" class="form-control" name="lastname" id ="lastname" value="{{ userinfo[2] }}">
       </div>
 
       <div class="form-group">
         <label for="email">Email:</label>
-        <input maxlength="40" required title="at most 40 char" type="email" class="form-control" name="email" id ="email" value="{{ user[4] }}">
+        <input maxlength="40" required title="at most 40 char" type="email" class="form-control" name="email" id ="email" value="{{ userinfo[4] }}">
       </div>
 
-      <center><button type="submit" class="btn btn-default">Register</button></center>
+      <center><button type="submit" class="btn btn-default">Save</button></center>
     </form>
+
     <form role="form" method="POST" action="./delete">
-      <center><button type="submit" class="btn btn-default">Register</button></center>
+      <center><button type="submit" class="btn btn-danger">Delete</button></center>
     </form>
   </div>
 </div>
