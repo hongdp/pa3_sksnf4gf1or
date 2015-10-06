@@ -47,7 +47,7 @@ CREATE TABLE AlbumAccess(
 );
 
 DELIMITER $$
-CREATE TRIGGER test_trigger
+CREATE TRIGGER insert_trigger
 AFTER INSERT ON Contain
 FOR EACH ROW BEGIN
     UPDATE Album
@@ -67,7 +67,7 @@ END;$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE TRIGGER delete_trigger
+CREATE TRIGGER update_trigger
 AFTER UPDATE ON Contain
 FOR EACH ROW BEGIN
     UPDATE Album
@@ -77,7 +77,7 @@ END;$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE TRIGGER test_trigger
+CREATE TRIGGER access_insert_trigger
 AFTER INSERT ON AlbumAccess
 FOR EACH ROW BEGIN
     UPDATE Album
@@ -87,7 +87,7 @@ END;$$
 DELIMITER ;
 
 DELIMITER $$
-CREATE TRIGGER delete_trigger
+CREATE TRIGGER access_delete_trigger
 AFTER DELETE ON AlbumAccess
 FOR EACH ROW BEGIN
     UPDATE Album

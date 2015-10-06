@@ -27,19 +27,18 @@ def album_edit_route():
         abort(404)
 
 # Authentication Codes
+    login = False
     if sessionExists(session):
         if sessionIsExpired(session):
-            session.clear();
+            session.clear()
             return render_template('sessionExpire.html', login=False)
         else:
-            if album[0][1] == session['username']:
-                renewSession(session)
-            else:
+            login = True
+            renewSession(session)
+            if album[0][1] != session['username']:
                 return render_template('noAccess.html', login=True)
     else:
         return render_template('noLogin.html', login=False)
-    if sessionExists(session):
-        login = True
 # Authentication Codes End
 
     #add picture to static/pictures
@@ -117,22 +116,23 @@ def album_route():
     album = cur.fetchall()
     if not album:
         abort(404)
-        
+
 # Authentication Codes
+    login = False
     if album[0][2] == 'private':
         if sessionExists(session):
             if sessionIsExpired(session):
                 session.clear();
                 return render_template('sessionExpire.html', login=False)
             else:
+                login = True
                 if album[0][1] == session['username']:
                     renewSession(session)
                 else:
                     cur.execute("SELECT username FROM AlbumAccess WHERE albumid=%s and username='%s'"%(albumid, session['username']))
                     authUser = cur.fetchall()
-                    if authUser:
-                        renewSession(session)
-                    else:
+                    renewSession(session)
+                    if not authUser:
                         return render_template('noAccess.html', login=True)
         else:
             return render_template('noLogin.html', login=False)
@@ -142,10 +142,8 @@ def album_route():
                 print 'session expired'
                 session.clear();
             else:
+                login = True
                 renewSession(session)
-    login = False
-    if sessionExists(session):
-        login = True
 # Authentication Codes End
 
     cur.execute("SELECT Photo.picid, url FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
