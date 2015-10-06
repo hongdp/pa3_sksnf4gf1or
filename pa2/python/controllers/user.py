@@ -3,6 +3,7 @@ from flask import *
 import hashlib
 import os
 import time
+from flask_mail import Message
 
 user = Blueprint('user', __name__, template_folder='views')
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -29,8 +30,12 @@ def reg():
         if request.form['password'] != request.form['re-password']:
             error = 'password does not match'
             return render_template('user.html',error=error)
-
         hash_password = hashlib.sha224(request.form['password']).hexdigest()
+
+        msg = Message("Congratulation! Your just started journey to the Great Album Wall!", \
+        recipients=[request.form['email']])
+        mail.send(msg)
+
         cur.execute("INSERT INTO User VALUES ('%s', '%s', '%s', '%s', '%s')" % (request.form['username'], \
         request.form['firstname'], request.form['lastname'],hash_password , request.form['email']) )
         session['username'] = request.form['username']

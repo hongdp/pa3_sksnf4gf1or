@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 import controllers
-from utils import mysql, configApp
+from utils import mysql, configApp, mail
 import os
 app = Flask(__name__, template_folder='views', static_url_path='/static')
 
@@ -23,6 +23,7 @@ def page_not_found(error):
 
 configApp(app)
 mysql.init_app(app)
+mail.init_app(app)
 
 # comment this out using a WSGI like gunicorn
 # if you dont, gunicorn will ignore it anyway
