@@ -1,6 +1,6 @@
-INSERT INTO User(username, firstname, lastname, password, email) VALUES('sportslover', 'Paul', 'Walker', 'paulpass93', 'sportslover@hotmail.com');
+INSERT INTO User(username, firstname, lastname, password, email) VALUES('sportslover', 'Paul', 'Walker', '56170d486abd86a13597', 'sportslover@hotmail.com');
 INSERT INTO User(username, firstname, lastname, password, email) VALUES('traveler', 'Rebecca', 'Travolta', '529b1af15efd184a8e55', 'rebt@explorer.org');
-INSERT INTO User(username, firstname, lastname, password, email) VALUES('spacejunkie', 'Bob', 'Spacey', 'bob1pass', 'bspace@spacejunkies.net');
+INSERT INTO User(username, firstname, lastname, password, email) VALUES('spacejunkie', 'Bob', 'Spacey', 'ec4f733a171670bd7cad', 'bspace@spacejunkies.net');
 
 INSERT INTO Album (albumid, title, created, lastupdated, username, access) VALUES ('1', 'I love sports', '2015-09-15', '2015-09-15', 'sportslover', 'public');
 INSERT INTO Album (albumid, title, created, lastupdated, username, access) VALUES ('2', 'I love football', '2015-09-15', '2015-09-15', 'sportslover', 'public');
