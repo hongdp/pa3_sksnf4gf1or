@@ -11,6 +11,8 @@ app.register_blueprint(controllers.albums)
 app.register_blueprint(controllers.pic)
 app.register_blueprint(controllers.login)
 app.register_blueprint(controllers.user)
+app.register_blueprint(controllers.useredit)
+
 
 
 app.secret_key = os.urandom(24)
