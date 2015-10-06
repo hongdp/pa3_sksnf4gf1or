@@ -12,10 +12,7 @@ def main_route():
 	if sessionIsValid(session):
 		renewSession(session)
 		username = session['username']
-		sql_get_all_albums = "SELECT Album.albumid, Album.title, Album.username \
-		FROM Album, AlbumAccess WHERE Album.access='public' OR Album.username='%s' \
-		OR Album.albumid=AlbumAccess.albumid AND AlbumAccess.username='%s' ORDER BY \
-		 Album.username"%(username, username)
+		sql_get_all_albums = "SELECT DISTINCT Album.albumid, Album.title, Album.username FROM Album, AlbumAccess WHERE Album.access='public' OR Album.username='%s' OR Album.albumid=AlbumAccess.albumid AND AlbumAccess.username='%s' ORDER BY Album.username"%(username, username)
 		# sql_get_all_albums = "SELECT albumid, title, username FROM (SELECT albumid, title, \
 		# username FROM Album WHERE access='public' OR username='%s' UNION SELECT \
 		# Album.albumid as albumid, title, Album.username FROM AlbumAccess, Album \
