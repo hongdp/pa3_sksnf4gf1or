@@ -3,6 +3,8 @@ from flask import *
 import hashlib
 import os
 import time
+import random
+import string
 from flask_mail import Message
 
 user = Blueprint('user', __name__, template_folder='views')
@@ -32,8 +34,8 @@ def reg():
             return render_template('user.html',error=error)
         hash_password = hashlib.sha224(request.form['password']).hexdigest()
 
-        msg = Message("Congratulation! Your just started journey to the Great Album Wall!", \
-        recipients=[request.form['email']])
+        msg = Message('welcome!', recipients=[request.form['email']])
+        msg.body = 'Congratulation! Your just started journey to the Great Album Wall!'
         mail.send(msg)
 
         cur.execute("INSERT INTO User VALUES ('%s', '%s', '%s', '%s', '%s')" % (request.form['username'], \
@@ -76,3 +78,26 @@ def deleteUser():
     con.commit()
     session.clear()
     return redirect(url_for('main.main_route'))
+
+@user.route(appendKey('/user/forget'), methods=['POST', 'GET'])
+def forgetPassword():
+    if request.method == 'GET':
+        return render_template("forget.html", exist=True)
+    if request.method == 'POST':
+        username = request.form['username']
+        password = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(8))
+        print password
+        hash_password = hashlib.sha224(password).hexdigest()
+        con = mysql.connection
+        cur = con.cursor()
+        cur.execute("UPDATE User SET password='%s' WHERE username='%s'"% (hash_password, username))
+        cur.execute("SELECT username, email FROM User WHERE username = '%s'"% (username))
+        msgs = cur.fetchall()
+        if not msgs:
+            return render_template("forget.html", exist=False)
+        con.commit()
+
+        msg = Message('Password Changed', recipients=[msgs[0][1]])
+        msg.body = 'Your new password is %s' %(password)
+        mail.send(msg)
+        return redirect(url_for('login.login_func'))
