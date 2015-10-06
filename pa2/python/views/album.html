@@ -63,12 +63,18 @@
 
 {% if edit %}
 <div class="row">
+  <h3>Upload Image</h3>
+</div>
+<div class="row">
   <form action="" method="Post" enctype="multipart/form-data">
     <input type="text" name="op" value="add" hidden/>
     <label for="file-upload">File input</label>
     <input type="file" name="file" id="file-upload"/>
     <input class="btn btn-success"type="submit" value="Upload"/>
   </form>
+</div>
+<div class="row">
+  <h3>Granted User</h3>
 </div>
 <div class="row">
   <table class="table table-striped">
