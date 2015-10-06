@@ -11,7 +11,6 @@ APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 UPLOAD_FOLDER = os.path.join(APP_ROOT, '../static/pictures')
 def allowed_file(filename):
     lowerFileName = filename.lower()
-    print
     return '.' in lowerFileName and lowerFileName.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 @album.route(appendKey('/album/edit'), methods=['GET', 'POST'])
@@ -141,7 +140,8 @@ def album_edit_route():
                 else:
                     sqladd = "INSERT INTO AlbumAccess(albumid, username) Values (%s, '%s')" %(albumid, username)
                     cur.execute(sqladd)
-                    con.commit()        
+                    con.commit()
+
     cur.execute("SELECT Photo.picid, url, Contain.caption, date FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
 
     photos = cur.fetchall()
@@ -215,5 +215,5 @@ def album_route():
         "albumid": albumid,
         "login": login
     }
-    print options
+    # print options
     return render_template("album.html", **options)

@@ -6,10 +6,10 @@
     <p>Hello, {{username}}</p>
     <div class="container">
       <h2>Accessable Albums</h2>
-      <table class="table table-striped">
+      <table class="table table-bordered">
         <thead>
           <tr>
-            <th>username</th>
+            <th>Owners</th>
             <th>Album Names</th>
           </tr>
         </thead>
@@ -17,7 +17,7 @@
           {% set prev_username = '' %}
           {% for album in albums %}
           <tr>
-            <td>{% if prev_username != album[2] %}{{album[2]}} {% set prev_username = album[2] %}{% endif %}</td>
+            {% if prev_username != album[2] %}<td rowspan={{rowspans[album[2]]}}>{{album[2]}} {% set prev_username = album[2] %}</td>{% endif %}
             <td><a href="./album?id={{album[0]}}">{{ album[1] }}</a></td>
           </tr>
           {% endfor %}

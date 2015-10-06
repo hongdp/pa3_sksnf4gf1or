@@ -11,14 +11,28 @@ def main_route():
 	username = ''
 	if sessionIsValid(session):
 		renewSession(session)
-		cur.execute("SELECT albumid, title, username FROM (SELECT albumid, title, \
-		username FROM Album WHERE access='public' OR username='%s' UNION SELECT \
-		Album.albumid as albumid, title, Album.username FROM AlbumAccess, Album \
-		WHERE AlbumAccess.albumid = Album.albumid AND AlbumAccess.username='%s') \
-		as t1 ORDER BY username"%(session['username'], session['username']))
+		username = session['username']
+		sql_get_all_albums = "SELECT Album.albumid, Album.title, Album.username \
+		FROM Album, AlbumAccess WHERE Album.access='public' OR Album.username='%s' \
+		OR Album.albumid=AlbumAccess.albumid AND AlbumAccess.username='%s' ORDER BY \
+		 Album.username"%(username, username)
+		# sql_get_all_albums = "SELECT albumid, title, username FROM (SELECT albumid, title, \
+		# username FROM Album WHERE access='public' OR username='%s' UNION SELECT \
+		# Album.albumid as albumid, title, Album.username FROM AlbumAccess, Album \
+		# WHERE AlbumAccess.albumid = Album.albumid AND AlbumAccess.username='%s') \
+		# as t1 ORDER BY username"%(session['username'], session['username'])
+		cur.execute(sql_get_all_albums)
 		albums = cur.fetchall()
-		print session['username']
-		return render_template("index.html", username=session['username'], login=True, albums=albums)
+
+		sql_get_count = "SELECT Albums.username, count(*) from (%s) AS Albums \
+		GROUP BY Albums.username" %(sql_get_all_albums)
+		cur.execute(sql_get_count)
+		albums_count = cur.fetchall()
+		rowspans = {}
+		for album_count in albums_count:
+			rowspans[album_count[0]] = album_count[1]
+		# print session['username']
+		return render_template("index.html", username=session['username'], login=True, albums=albums, rowspans=rowspans)
 	elif sessionIsExpired(session):
 		session.clear()
 	cur.execute("SELECT albumid, title FROM Album WHERE access='public' ORDER BY username")
