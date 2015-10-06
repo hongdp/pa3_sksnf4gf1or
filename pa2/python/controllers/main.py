@@ -17,7 +17,7 @@ def main_route():
 		WHERE AlbumAccess.albumid = Album.albumid AND AlbumAccess.username='%s') \
 		as t1 ORDER BY username"%(session['username'], session['username']))
 		albums = cur.fetchall()
-		print session['username']
+		# print session['username']
 		return render_template("index.html", username=session['username'], login=True, albums=albums)
 	elif sessionIsExpired(session):
 		session.clear()

@@ -37,7 +37,7 @@ def pic_route():
 		else:
 			if sessionExists(session):
 				if sessionIsExpired(session):
-					print 'session expired'
+					# print 'session expired'
 					session.clear();
 				else:
 					renewSession(session)
@@ -75,7 +75,7 @@ def pic_route():
 		}
 
 		return render_template("pic.html", **options)
-	
+
 	else:
 		pic_id = request.args.get('id')
 		con = mysql.connection
@@ -87,7 +87,3 @@ def pic_route():
 		cur.execute("UPDATE Contain SET caption = '%s' WHERE Contain.picid = '%s'" %(request.form['caption'], pic_id))
 		con.commit()
 		return redirect(url_for('pic.pic_route')+'?id=%s'%(pic_id))
-
-
-
-
