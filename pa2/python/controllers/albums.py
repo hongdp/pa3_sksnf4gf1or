@@ -58,18 +58,6 @@ def albums_edit_route():
             id = cur.fetchall()
             con.commit()
 
-        if request.form['op'] == 'access':
-            albumid = request.form['albumid']
-            access = request.form['access']
-            date = time.strftime('%Y-%m-%d', time.gmtime())
-            sqlcode = "UPDATE Album SET access = '%s', lastupdated = '%s' \
-            WHERE albumid = %s" % (access, date, albumid)
-            cur.execute(sqlcode)
-            if access == "public":
-                sql_delete_access = "DELETE FROM AlbumAccess WHERE albumid = %s"%(albumid)
-                cur.execute(sql_delete_access)
-            con.commit()
-
     cur.execute("SELECT * FROM Album WHERE username ='%s'"%(username))
     msgs = cur.fetchall()
     con.commit()

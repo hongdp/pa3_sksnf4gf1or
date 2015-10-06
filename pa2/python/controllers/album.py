@@ -80,7 +80,6 @@ def album_edit_route():
             picid = ""
             if "picid" in request.form:
                picid = request.form['picid']
-            picid = request.form['photoid']
             sqlcontain = "DELETE FROM Contain WHERE Contain.picid = '%s'" %(picid)
             cur.execute(sqlcontain)
             con.commit()
@@ -97,6 +96,13 @@ def album_edit_route():
             url = ".." + url
             os.remove(os.path.join(APP_ROOT, url))
 
+        if request.form['op'] == 'modifyAlbumName':
+            if "albumName" in request.form:
+               newAlbumName = request.form['albumName']
+            sqlupdatealbumname = "UPDATE Album SET title = '%s' WHERE albumid = %s" %(newAlbumName, albumid)
+            cur.execute(sqlupdatealbumname)
+            con.commit()
+
         if request.form['op'] == 'revoke':
             username = ""
             if "username" in request.form:
@@ -104,6 +110,18 @@ def album_edit_route():
             sqlrevoke = "DELETE FROM AlbumAccess WHERE username = '%s' AND albumid = '%s'" %(username, albumid)
             cur.execute(sqlrevoke)
             con.commit()
+
+        if request.form['op'] == 'modifyAccess':
+            privacy = ""
+            if "privacy" in request.form:
+               privacy = request.form['privacy']
+            if privacy == 'private' or privacy == 'public':
+                sqlrevoke = "UPDATE Album SET access = '%s' WHERE albumid = '%s'" %(privacy, albumid)
+                cur.execute(sqlrevoke)
+                if privacy == 'public':
+                    sql_delete_access = "DELETE FROM AlbumAccess WHERE albumid = %s"%(albumid)
+                    cur.execute(sql_delete_access)
+                con.commit()
 
         if request.form['op'] == 'addAccess':
             username = ""
@@ -125,9 +143,9 @@ def album_edit_route():
                     cur.execute(sqladd)
                     con.commit()
         
-    cur.execute("SELECT Photo.picid, url, Contain.caption FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
+    cur.execute("SELECT Photo.picid, url, Contain.caption, date FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
     photos = cur.fetchall()
-    cur.execute("SELECT username, title FROM Album WHERE albumid = %s" %(albumid))
+    cur.execute("SELECT username, title, access FROM Album WHERE albumid = %s" %(albumid))
     albumInfo = cur.fetchall()
     cur.execute("SELECT username FROM AlbumAccess WHERE albumid = %s" %(albumid))
     accessUsers = cur.fetchall()
@@ -136,6 +154,7 @@ def album_edit_route():
         "photos": photos,
         "username": albumInfo[0][0],
         "albumname":albumInfo[0][1],
+        "privacy": albumInfo[0][2],
         "albumid": albumid,
         "login": login,
         "error": error,
@@ -184,7 +203,7 @@ def album_route():
                 renewSession(session)
 # Authentication Codes End
 
-    cur.execute("SELECT Photo.picid, url, Contain.caption FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
+    cur.execute("SELECT Photo.picid, url, Contain.caption, date FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
     photos = cur.fetchall()
     cur.execute("SELECT username, title FROM Album WHERE albumid = '%s'" %(albumid))
     albumInfo = cur.fetchall()

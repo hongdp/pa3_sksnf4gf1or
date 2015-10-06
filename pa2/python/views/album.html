@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
-  <div class="col-xs-6 col-md-8 col-lg-10">
+  <div class="col-xs-3 col-md-4 col-lg-5">
       <h1>{{albumname}}</h1>
+  </div>
+  <div class="col-xs-3 col-md-4 col-lg-5">
+      <h3>Owner: {{username}}</h3>
   </div>
   <div class="col-xs-3 col-md-2 col-lg-1">
     <h1>
@@ -30,49 +33,29 @@
 <p>{{ error }}</p>
 </div>
 {% endif %}
-<div class="row">
-  {% for photo in photos %}
-  <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-      <div class="row">
-        {% if edit %}
-        <a class="thumbnail" href="../pic?id={{photo[0]}}">
-          <img class="img-responsive" src="{{photo[1]}}" alt=""/>
-        </a>
-        {% else %}
-        <a class="thumbnail" href="./pic?id={{photo[0]}}">
-            <img class="img-responsive" src="{{photo[1]}}" alt=""/>
-        </a>
-        {% endif %}
-
-      </div>
-      <div class="row">
-        <p>{{ photo[2] }}</p>
-      </div>
-      {% if edit %}
-      <div class="row">
-        <form action="" method="POST" enctype="application/x-www-form-urlencoded">
-          <input type="text" name="op" value="delete" hidden/>
-          <input type="text" name="photoid" value="{{photo[0]}}" hidden/>
-          <button type="submit" class="btn btn-danger">Delete</button>
-        </form>
-      </div>
-      {% endif %}
-  </div>
-  {% endfor %}
-</div>
-
 {% if edit %}
 <div class="row">
-  <h3>Upload Image</h3>
-</div>
-<div class="row">
-  <form action="" method="Post" enctype="multipart/form-data">
-    <input type="text" name="op" value="add" hidden/>
-    <label for="file-upload">File input</label>
-    <input type="file" name="file" id="file-upload"/>
-    <input class="btn btn-success"type="submit" value="Upload"/>
+  <h3>Title</h3>
+  <form action="" method="POST">
+    <input type="text" name="op" value="modifyAlbumName" hidden/>
+    <input type="text" name="albumName" id="title" value="{{albumname}}"/>
+    <button type="submit" class="btn btn-default">Save</button>
   </form>
 </div>
+<div class="row">
+  <h3>Access</h3>
+  <form action="" method="POST">
+    <input type="text" name="op" value="modifyAccess" hidden/>
+    <select name="privacy" value={{privacy}}>
+      <option value="private" {% if privacy == 'private' %}selected{% endif %}>Private</option>
+      <option value="public" {% if privacy == 'public' %}selected{% endif %}>Public</option>
+    </select>
+    <button type="submit" class="btn btn-default">Save</button>
+  </form>
+</div>
+{% endif %}
+
+{% if edit and privacy == 'private' %}
 <div class="row">
   <h3>Granted User</h3>
 </div>
@@ -108,6 +91,54 @@
       </tr>
     </tbody>
   </table>
+</div>
+{% endif %}
+
+<div class="row">
+  {% for photo in photos %}
+  <div class="col-lg-3 col-md-4 col-xs-6 thumb">
+      <div class="row">
+        {% if edit %}
+        <a class="thumbnail" href="../pic?id={{photo[0]}}">
+          <img class="img-responsive" src="{{photo[1]}}" alt=""/>
+        </a>
+        {% else %}
+        <a class="thumbnail" href="./pic?id={{photo[0]}}">
+            <img class="img-responsive" src="{{photo[1]}}" alt=""/>
+        </a>
+        {% endif %}
+
+      </div>
+      <div class="row">
+        <p>{{ photo[2] }}</p>
+      </div>
+      <div class="row">
+        <p>{{ photo[3] }}</p>
+      </div>
+      {% if edit %}
+      <div class="row">
+        <form action="" method="POST" enctype="application/x-www-form-urlencoded">
+          <input type="text" name="op" value="delete" hidden/>
+          <input type="text" name="photoid" value="{{photo[0]}}" hidden/>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+      {% endif %}
+  </div>
+  {% endfor %}
+</div>
+
+{% if edit %}
+<div class="row">
+  <h3>Upload Image</h3>
+</div>
+<div class="row">
+  <form action="" method="Post" enctype="multipart/form-data">
+    <input type="text" name="op" value="add" hidden/>
+    <label for="file-upload">File input</label>
+    <input type="file" name="file" id="file-upload"/>
+    <input class="btn btn-success"type="submit" value="Upload"/>
+  </form>
 </div>
 {% endif %}
 {% endblock %}
