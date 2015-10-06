@@ -16,6 +16,7 @@ def allowed_file(filename):
 
 @album.route(appendKey('/album/edit'), methods=['GET', 'POST'])
 def album_edit_route():
+    error = ''
     albumid = request.args.get('id')
     if not albumid:
         abort(404)
@@ -45,7 +46,9 @@ def album_edit_route():
     if request.method == 'POST':
         #add picture to static/pictures
         if request.form['op'] == 'add':
-            file = request.files['file']
+            file = ""
+            if "file" in request.files:
+               file = request.files['file']
 
             if file and allowed_file(file.filename):
                 format = file.filename.rsplit('.', 1)[1]
@@ -74,6 +77,9 @@ def album_edit_route():
                 con.commit()
 
         if request.form['op'] == 'delete':
+            picid = ""
+            if "picid" in request.form:
+               picid = request.form['picid']
             picid = request.form['photoid']
             sqlcontain = "DELETE FROM Contain WHERE Contain.picid = '%s'" %(picid)
             cur.execute(sqlcontain)
@@ -91,17 +97,49 @@ def album_edit_route():
             url = ".." + url
             os.remove(os.path.join(APP_ROOT, url))
 
-    cur.execute("SELECT Photo.picid, url FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
+        if request.form['op'] == 'revoke':
+            username = ""
+            if "username" in request.form:
+               username = request.form['username']
+            sqlrevoke = "DELETE FROM AlbumAccess WHERE username = '%s' AND albumid = '%s'" %(username, albumid)
+            cur.execute(sqlrevoke)
+            con.commit()
+
+        if request.form['op'] == 'addAccess':
+            username = ""
+            if "username" in request.form:
+               username = request.form['username']
+            findUser = "SELECT * FROM User WHERE username = '%s'" %(username)
+            cur.execute(findUser)
+            user = cur.fetchall()
+            if not user:
+                error = 'No such a user.'
+            else:
+                findAccess = "SELECT * FROM AlbumAccess WHERE username = '%s' AND albumid = %s" %(username, albumid)
+                cur.execute(findAccess)
+                access = cur.fetchall()
+                if access:
+                    error = 'User already has authentication'
+                else:
+                    sqladd = "INSERT INTO AlbumAccess(albumid, username) Values (%s, '%s')" %(albumid, username)
+                    cur.execute(sqladd)
+                    con.commit()
+        
+    cur.execute("SELECT Photo.picid, url, Contain.caption FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
     photos = cur.fetchall()
-    cur.execute("SELECT username, title FROM Album WHERE albumid = '%s'" %(albumid))
+    cur.execute("SELECT username, title FROM Album WHERE albumid = %s" %(albumid))
     albumInfo = cur.fetchall()
+    cur.execute("SELECT username FROM AlbumAccess WHERE albumid = %s" %(albumid))
+    accessUsers = cur.fetchall()
     options = {
         "edit": True,
         "photos": photos,
         "username": albumInfo[0][0],
         "albumname":albumInfo[0][1],
         "albumid": albumid,
-        "login": login
+        "login": login,
+        "error": error,
+        "accessUsers": accessUsers
     }
     return render_template("album.html", **options)
 
@@ -146,7 +184,7 @@ def album_route():
                 renewSession(session)
 # Authentication Codes End
 
-    cur.execute("SELECT Photo.picid, url FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
+    cur.execute("SELECT Photo.picid, url, Contain.caption FROM Photo, Contain WHERE Photo.picid = Contain.picid AND Contain.albumid = '%s' ORDER BY sequencenum "%(albumid))
     photos = cur.fetchall()
     cur.execute("SELECT username, title FROM Album WHERE albumid = '%s'" %(albumid))
     albumInfo = cur.fetchall()
