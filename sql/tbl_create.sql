@@ -95,3 +95,11 @@ FOR EACH ROW BEGIN
      WHERE Album.albumid=OLD.albumid;
 END;$$
 DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER access_update_trigger
+BEFORE UPDATE ON Album
+FOR EACH ROW BEGIN
+       SET NEW.lastupdated=CURDATE();
+END;$$
+DELIMITER ;
