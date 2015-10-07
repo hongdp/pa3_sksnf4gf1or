@@ -18,6 +18,7 @@ def albums_edit_route():
         return render_template('noLogin.html', login=False), 403
     if sessionExists(session):
         login = True
+        renewSession(session)
 # Authentication Codes End
     con = mysql.connection
     cur = con.cursor()
