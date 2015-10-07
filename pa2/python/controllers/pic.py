@@ -5,6 +5,7 @@ pic = Blueprint('pic', __name__, template_folder='views')
 
 @pic.route(appendKey('/pic'), methods=['GET', 'POST'])
 def pic_route():
+	owner = False
 	if request.method == 'GET':
 		pic_id = request.args.get('id')
 		cur = mysql.connection.cursor()
@@ -22,16 +23,16 @@ def pic_route():
 				if sessionIsExpired(session):
 					session.clear();
 					return render_template('sessionExpire.html', login=False)
+				elif access[0][1] == session['username']:
+					owner = True
+					renewSession(session)
 				else:
-					if access[0][1] == session['username']:
+					cur.execute("SELECT username FROM AlbumAccess WHERE albumid=%s and username='%s'"%(access[0][0], session['username']))
+					authUser = cur.fetchall()
+					if authUser:
 						renewSession(session)
 					else:
-						cur.execute("SELECT username FROM AlbumAccess WHERE albumid=%s and username='%s'"%(access[0][0], session['username']))
-						authUser = cur.fetchall()
-						if authUser:
-							renewSession(session)
-						else:
-							return render_template('noAccess.html', login=True), 403
+						return render_template('noAccess.html', login=True), 403
 			else:
 				return render_template('noLogin.html', login=False), 403
 		else:
@@ -71,7 +72,8 @@ def pic_route():
 			"caption": msgs2[0][1],
 			"prev": prev,
 			"next": nxt,
-			"login": login
+			"login": login,
+			"owner": owner
 		}
 
 		return render_template("pic.html", **options)
@@ -82,6 +84,17 @@ def pic_route():
 		cur = con.cursor()
 		cur.execute("SELECT url FROM Photo WHERE Photo.picid = '%s'" %(pic_id))
 		msgs = cur.fetchall()
+		cur.execute("SELECT username FROM Contain, Album WHERE Contain.albumid=Album.albumid AND Contain.picid = '%s'" %(pic_id))
+		owner = cur.fetchall()
+		if sessionExists(session):
+			if sessionIsExpired(session):
+				session.clear()
+				return render_template('sessionExpire.html', login=False)
+			elif owner[0][0] == session['username']:
+				renewSession(session)
+			else:
+				return render_template('noAccess.html', login=True), 403
+
 		if not msgs or not request.form['caption']:
 			abort(404)
 		cur.execute("UPDATE Contain SET caption = '%s' WHERE Contain.picid = '%s'" %(request.form['caption'], pic_id))
