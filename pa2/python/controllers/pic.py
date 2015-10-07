@@ -27,11 +27,10 @@ def pic_route():
 					owner = True
 					renewSession(session)
 				else:
+					renewSession(session)
 					cur.execute("SELECT username FROM AlbumAccess WHERE albumid=%s and username='%s'"%(access[0][0], session['username']))
 					authUser = cur.fetchall()
-					if authUser:
-						renewSession(session)
-					else:
+					if not authUser:
 						return render_template('noAccess.html', login=True), 403
 			else:
 				return render_template('noLogin.html', login=False), 403
@@ -42,6 +41,8 @@ def pic_route():
 					session.clear();
 				else:
 					renewSession(session)
+					if access[0][1] == session['username']:
+						owner = True
 		login = False
 		if sessionExists(session):
 			login = True
