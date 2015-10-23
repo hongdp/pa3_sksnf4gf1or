@@ -1,6 +1,9 @@
 <!DOCTYPE>
 <html lang="en">
 <head>
+
+  <script type="text/javascript" src="/static/js/qwest.min.js"></script>
+  <script type="text/javascript" src="/static/js/caption.js"></script>
   <link rel="stylesheet" href="/static/css/bootstrap-theme.min.css" />
   <link rel="stylesheet" href="/static/css/bootstrap.min.css" />
   <link rel="stylesheet" href="/static/css/style.css" />
@@ -32,7 +35,7 @@
       <h3 class="text-muted"><a href="/sksnf4gf1or/pa2/">The Great Album Wall</a></h3>
     </div>
 
-    {% block content %}{% endblock %}
+    {% block content %}{% block extrascripts %}{% endblock %}
 
     <footer class="footer">
       <p>© J.P.H. Inc. 2015</p>
