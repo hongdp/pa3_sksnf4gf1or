@@ -32,7 +32,7 @@ def album_edit_route():
     # Authentication Codes
     login = False
     if session_exists(session):
-        if sessionIs_expired(session):
+        if session_is_expired(session):
             session.clear()
             return render_template('sessionExpire.html', login=False)
         else:
@@ -185,7 +185,7 @@ def album_route():
     login = False
     if album[0][2] == 'private':
         if session_exists(session):
-            if sessionIs_expired(session):
+            if session_is_expired(session):
                 session.clear()
                 return render_template('sessionExpire.html', login=False)
             else:
@@ -203,7 +203,7 @@ def album_route():
             return render_template('noLogin.html', login=False), 403
     else:
         if session_exists(session):
-            if sessionIs_expired(session):
+            if session_is_expired(session):
                 print 'session expired'
                 session.clear()
             else:

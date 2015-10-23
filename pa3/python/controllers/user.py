@@ -61,7 +61,7 @@ def delete_user():
     #       return redirect(url)
     if not session_exists(session):
         return render_template("noLogin.html", login=False), 403
-    elif sessionIs_expired(session):
+    elif session_is_expired(session):
         session.clear()
         return render_template("sessionExpire.html", login=False)
 

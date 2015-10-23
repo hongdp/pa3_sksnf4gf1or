@@ -15,7 +15,7 @@ def edit():
         # auth code
         if not session_exists(session):
             return render_template('noLogin.html', login=False), 403
-        elif sessionIs_expired(session):
+        elif session_is_expired(session):
             session.clear()
             return render_template('sessionExpire.html', login=False)
         else:
@@ -37,7 +37,7 @@ def edit():
     else:
         if not session_exists(session):
             return render_template('noLogin.html', login=False), 403
-        elif sessionIs_expired(session):
+        elif session_is_expired(session):
             session.clear()
             return render_template('sessionExpire.html', login=False)
         else:

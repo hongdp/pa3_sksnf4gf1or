@@ -31,7 +31,7 @@ def main_route():
             rowspans[album_count[0]] = album_count[1]
         # print session['username']
         return render_template("index.html", username=session['username'], login=True, albums=albums, rowspans=rowspans)
-    elif sessionIs_expired(session):
+    elif session_is_expired(session):
         session.clear()
     cur.execute("SELECT albumid, title FROM Album WHERE access='public' ORDER BY username")
     albums = cur.fetchall()
