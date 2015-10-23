@@ -5,12 +5,12 @@ from flask import *
 main = Blueprint('main', __name__, template_folder='views')
 
 
-@main.route(appendKey('/'))
+@main.route(append_key('/'))
 def main_route():
     con = mysql.connection
     cur = con.cursor()
-    if sessionIsValid(session):
-        renewSession(session)
+    if session_is_valid(session):
+        renew_session(session)
         username = session['username']
         sql_get_all_albums = "SELECT DISTINCT Album.albumid, Album.title, Album.username FROM Album, AlbumAccess WHERE Album.access='public' OR Album.username='%s' OR Album.albumid=AlbumAccess.albumid AND AlbumAccess.username='%s' ORDER BY Album.username" % (
             username, username)
@@ -31,7 +31,7 @@ def main_route():
             rowspans[album_count[0]] = album_count[1]
         # print session['username']
         return render_template("index.html", username=session['username'], login=True, albums=albums, rowspans=rowspans)
-    elif sessionIsExpired(session):
+    elif sessionIs_expired(session):
         session.clear()
     cur.execute("SELECT albumid, title FROM Album WHERE access='public' ORDER BY username")
     albums = cur.fetchall()

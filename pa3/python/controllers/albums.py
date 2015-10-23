@@ -6,21 +6,21 @@ albums = Blueprint('albums', __name__, template_folder='views')
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
-@albums.route(appendKey('/albums/edit'), methods=['GET', 'POST'])
+@albums.route(append_key('/albums/edit'), methods=['GET', 'POST'])
 def albums_edit_route():
     # Authentication Codes
     login = False
-    if sessionExists(session):
-        if sessionIsExpired(session):
+    if session_exists(session):
+        if sessionIs_expired(session):
             session.clear()
             return render_template('sessionExpire.html', login=login)
         else:
             username = session['username']
     else:
         return render_template('noLogin.html', login=login), 403
-    if sessionExists(session):
+    if session_exists(session):
         login = True
-        renewSession(session)
+        renew_session(session)
     # Authentication Codes End
     con = mysql.connection
     cur = con.cursor()
@@ -70,7 +70,7 @@ def albums_edit_route():
     return render_template("albums.html", albums=msgs, username=username, login=login, **options)
 
 
-@albums.route(appendKey('/albums'), methods=['GET'])
+@albums.route(append_key('/albums'), methods=['GET'])
 def albums_route():
     username = ''
     con = mysql.connection
@@ -78,9 +78,9 @@ def albums_route():
     msgs = {}
 
     # Authentication Codes
-    if sessionIsValid(session):
+    if session_is_valid(session):
         username = session['username']
-        renewSession(session)
+        renew_session(session)
         cur.execute("SELECT * FROM Album WHERE username='%s'" % (username))
         msgs = cur.fetchall()
         options = {
@@ -88,7 +88,7 @@ def albums_route():
             "login": True
         }
         return render_template("albums.html", username=username, albums=msgs, **options)
-    elif sessionIsExpired(session):
+    elif sessionIs_expired(session):
         session.clear()
     # Authentication Codes End
 

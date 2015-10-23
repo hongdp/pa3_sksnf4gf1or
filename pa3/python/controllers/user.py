@@ -11,7 +11,7 @@ user = Blueprint('user', __name__, template_folder='views')
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 
-@user.route(appendKey('/user'), methods=['GET', 'POST'])
+@user.route(append_key('/user'), methods=['GET', 'POST'])
 def reg():
     # redirect to user/edit
     if request.method == 'GET':
@@ -46,22 +46,22 @@ def reg():
                                                                                 request.form['lastname'], hash_password,
                                                                                 request.form['email']))
         session['username'] = request.form['username']
-        renewSession(session)
+        renew_session(session)
         con.commit()
         return redirect(url_for('main.main_route'))
 
     return render_template('user.html')
 
 
-@user.route(appendKey('/user/delete'), methods=['POST'])
+@user.route(append_key('/user/delete'), methods=['POST'])
 def delete_user():
     # redirect to user/edit
     # if request.method == 'GET':
     #   if 'username' in session:
     #       return redirect(url)
-    if not sessionExists(session):
+    if not session_exists(session):
         return render_template("noLogin.html", login=False), 403
-    elif sessionIsExpired(session):
+    elif sessionIs_expired(session):
         session.clear()
         return render_template("sessionExpire.html", login=False)
 
@@ -89,7 +89,7 @@ def delete_user():
     return redirect(url_for('main.main_route'))
 
 
-@user.route(appendKey('/user/forget'), methods=['POST', 'GET'])
+@user.route(append_key('/user/forget'), methods=['POST', 'GET'])
 def forget_password():
     if request.method == 'GET':
         return render_template("forget.html", exist=True)

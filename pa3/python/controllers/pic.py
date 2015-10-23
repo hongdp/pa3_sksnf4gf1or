@@ -4,7 +4,7 @@ from flask import *
 pic = Blueprint('pic', __name__, template_folder='views')
 
 
-@pic.route(appendKey('/pic'), methods=['GET', 'POST'])
+@pic.route(append_key('/pic'), methods=['GET', 'POST'])
 def pic_route():
     owner = False
     if request.method == 'GET':
@@ -20,15 +20,15 @@ def pic_route():
         cur.execute("SELECT albumid, username, access FROM Album WHERE Album.albumid = '%s'" % (msgs1[0][0]))
         access = cur.fetchall()
         if access[0][2] == 'private':
-            if sessionExists(session):
-                if sessionIsExpired(session):
+            if session_exists(session):
+                if sessionIs_expired(session):
                     session.clear()
                     return render_template('sessionExpire.html', login=False)
                 elif access[0][1] == session['username']:
                     owner = True
-                    renewSession(session)
+                    renew_session(session)
                 else:
-                    renewSession(session)
+                    renew_session(session)
                     cur.execute("SELECT username FROM AlbumAccess WHERE albumid=%s and username='%s'" % (
                         access[0][0], session['username']))
                     auth_user = cur.fetchall()
@@ -37,16 +37,16 @@ def pic_route():
             else:
                 return render_template('noLogin.html', login=False), 403
         else:
-            if sessionExists(session):
-                if sessionIsExpired(session):
+            if session_exists(session):
+                if sessionIs_expired(session):
                     # print 'session expired'
                     session.clear()
                 else:
-                    renewSession(session)
+                    renew_session(session)
                     if access[0][1] == session['username']:
                         owner = True
         login = False
-        if sessionExists(session):
+        if session_exists(session):
             login = True
         # Authentication Codes End
 
@@ -92,12 +92,12 @@ def pic_route():
             "SELECT username FROM Contain, Album WHERE Contain.albumid=Album.albumid AND Contain.picid = '%s'" % (
                 pic_id))
         owner = cur.fetchall()
-        if sessionExists(session):
-            if sessionIsExpired(session):
+        if session_exists(session):
+            if sessionIs_expired(session):
                 session.clear()
                 return render_template('sessionExpire.html', login=False)
             elif owner[0][0] == session['username']:
-                renewSession(session)
+                renew_session(session)
             else:
                 return render_template('noAccess.html', login=True), 403
 
