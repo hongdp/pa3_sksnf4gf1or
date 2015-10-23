@@ -6,12 +6,12 @@ from flask import *
 login = Blueprint('login', __name__, template_folder='views')
 
 
-@login.route(appendKey('/user/login'), methods=['GET', 'POST'])
+@login.route(append_key('/user/login'), methods=['GET', 'POST'])
 def login_func():
     url = request.args.get('url')
     if request.method == 'GET':
-        if sessionExists(session):
-            renewSession(session)
+        if session_exists(session):
+            renew_session(session)
             if url:
                 return redirect(url)
             else:
@@ -33,14 +33,14 @@ def login_func():
 
         flash('You were successfully logged in')
         session['username'] = request.form['username']
-        renewSession(session)
+        renew_session(session)
         if not url:
             return redirect(url_for('main.main_route'))
         return redirect(url)
     return render_template('login.html', hideLogin=True)
 
 
-@login.route(appendKey('/user/logout'), methods=['GET'])
+@login.route(append_key('/user/logout'), methods=['GET'])
 def logout_func():
     session.clear()
     return redirect(url_for('main.main_route'))

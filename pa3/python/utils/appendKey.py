@@ -1,5 +1,5 @@
 secretKey = "/sksnf4gf1or/pa2"
 
 
-def appendKey(url):
+def append_key(url):
     return secretKey + url

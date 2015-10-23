@@ -16,7 +16,7 @@ def allowed_file(filename):
     return '.' in lower_file_name and lower_file_name.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
-@album.route(appendKey('/album/edit'), methods=['GET', 'POST'])
+@album.route(append_key('/album/edit'), methods=['GET', 'POST'])
 def album_edit_route():
     error = ''
     album_id = request.args.get('id')
@@ -31,13 +31,13 @@ def album_edit_route():
 
     # Authentication Codes
     login = False
-    if sessionExists(session):
-        if sessionIsExpired(session):
+    if session_exists(session):
+        if sessionIs_expired(session):
             session.clear()
             return render_template('sessionExpire.html', login=False)
         else:
             login = True
-            renewSession(session)
+            renew_session(session)
             if album[0][1] != session['username']:
                 return render_template('noAccess.html', login=True), 403
     else:
@@ -170,7 +170,7 @@ def album_edit_route():
     return render_template("album.html", **options)
 
 
-@album.route(appendKey('/album'), methods=['GET'])
+@album.route(append_key('/album'), methods=['GET'])
 def album_route():
     album_id = request.args.get('id')
     if not album_id:
@@ -184,31 +184,31 @@ def album_route():
     # Authentication Codes
     login = False
     if album[0][2] == 'private':
-        if sessionExists(session):
-            if sessionIsExpired(session):
+        if session_exists(session):
+            if sessionIs_expired(session):
                 session.clear()
                 return render_template('sessionExpire.html', login=False)
             else:
                 login = True
                 if album[0][1] == session['username']:
-                    renewSession(session)
+                    renew_session(session)
                 else:
                     cur.execute("SELECT username FROM AlbumAccess WHERE albumid=%s and username='%s'" % (
                         album_id, session['username']))
                     authUser = cur.fetchall()
-                    renewSession(session)
+                    renew_session(session)
                     if not authUser:
                         return render_template('noAccess.html', login=True), 403
         else:
             return render_template('noLogin.html', login=False), 403
     else:
-        if sessionExists(session):
-            if sessionIsExpired(session):
+        if session_exists(session):
+            if sessionIs_expired(session):
                 print 'session expired'
                 session.clear()
             else:
                 login = True
-                renewSession(session)
+                renew_session(session)
                 # Authentication Codes End
 
     cur.execute(
