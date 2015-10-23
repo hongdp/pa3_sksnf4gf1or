@@ -1,7 +1,6 @@
 from flask import Flask, render_template
 import controllers
 from utils import mysql, configApp, mail
-import os
 app = Flask(__name__, template_folder='views', static_url_path='/static')
 
 
@@ -12,14 +11,12 @@ app.register_blueprint(controllers.pic)
 app.register_blueprint(controllers.login)
 app.register_blueprint(controllers.user)
 app.register_blueprint(controllers.useredit)
-
-
-
 app.secret_key = '\xfc\x9c\x90\xf0\r9\x88\xf6D\xc1\n\x96]\x7fzO8\x88O?\xa7b\xb9\xe1'
 
+
 @app.errorhandler(404)
-def page_not_found(error):
-	return render_template('page_not_found.html'), 404
+def page_not_found():
+    return render_template('page_not_found.html'), 404
 
 configApp(app)
 mysql.init_app(app)
