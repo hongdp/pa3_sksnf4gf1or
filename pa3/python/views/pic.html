@@ -16,7 +16,7 @@
       {% if owner %}
       <form action="" method="POST">
         <label for="pwd">Caption:</label>
-        <input type="text" class="form-control" name="caption" value="{{caption}}">
+        <input id="caption" type="text" class="form-control" name="caption" value="{{caption}}">
         <button type="submit" class="btn btn-default">Save</button>
       </form>
       {% else %}
@@ -33,4 +33,9 @@
     </div>
   </div>
 </div>
+
+{% block extrascripts %}
+    <script type="text/javascript">
+        initCaption("{{ id }}");
+    </script>
 {% endblock %}
