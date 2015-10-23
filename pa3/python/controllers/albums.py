@@ -11,7 +11,7 @@ def albums_edit_route():
     # Authentication Codes
     login = False
     if session_exists(session):
-        if sessionIs_expired(session):
+        if session_is_expired(session):
             session.clear()
             return render_template('sessionExpire.html', login=login)
         else:
@@ -88,7 +88,7 @@ def albums_route():
             "login": True
         }
         return render_template("albums.html", username=username, albums=msgs, **options)
-    elif sessionIs_expired(session):
+    elif session_is_expired(session):
         session.clear()
     # Authentication Codes End
 

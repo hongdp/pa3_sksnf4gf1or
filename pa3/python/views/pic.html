@@ -26,10 +26,12 @@
   </div>
   <div class="row">
     <div class="col-xs-6">
-      <a class="btn btn-primary {% if not prev %}disabled{% endif %}" href="./pic?id={{prev}}" style="float:left">Prev</a></h1>
+      <a class="btn btn-primary {% if not prev %}disabled{% endif %}" href="./pic?id={{prev}}"
+         style="float:left">Prev</a>
     </div>
     <div class="col-xs-6">
-      <a class="btn btn-primary {% if not next %}disabled{% endif %}" href="./pic?id={{next}}" style="float:right">Next</a></h1>
+      <a class="btn btn-primary {% if not next %}disabled{% endif %}" href="./pic?id={{next}}"
+         style="float:right">Next</a>
     </div>
   </div>
 </div>
@@ -38,4 +40,5 @@
     <script type="text/javascript">
         initCaption("{{ id }}");
     </script>
+{% endblock %}
 {% endblock %}

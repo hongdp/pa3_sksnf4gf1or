@@ -8,7 +8,7 @@ def session_exists(session):
 
 
 def session_is_valid(session):
-    if 'username' in session and not sessionIs_expired(session):
+    if 'username' in session and not session_is_expired(session):
         return True
     return False
 
@@ -17,7 +17,7 @@ def renew_session(session):
     session['lastActivity'] = int(time.time())
 
 
-def sessionIs_expired(session):
+def session_is_expired(session):
     currentTime = int(time.time())
     if 'lastActivity' in session:
         if currentTime - session['lastActivity'] <= 300:
