@@ -1,6 +1,6 @@
-/pa2/python/venv
+/pa3/python/venv
 *.pyc
 .DS_Store
-/pa2/python/static/pictures
-/pa2/python/static/img
-/pa2/python/utils/configApp.py
+/pa3/python/static/pictures
+/pa3/python/static/img
+/pa3/python/utils/configApp.py
