@@ -46,6 +46,16 @@ CREATE TABLE AlbumAccess(
        PRIMARY KEY (albumid, username)
 );
 
+create table Favorite (
+    favoriteid integer primary key not null auto_increment,
+    picid varchar(40) not null,
+    username varchar(20) not null,
+    date timestamp default current_timestamp,
+
+    foreign key (picid) references Photo (picid),
+    foreign key (username) references User (username)
+);
+
 DELIMITER $$
 CREATE TRIGGER insert_trigger
 AFTER INSERT ON Contain
