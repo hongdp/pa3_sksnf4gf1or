@@ -6,7 +6,7 @@ pic = Blueprint('pic', __name__, template_folder='views')
 
 @pic.route(append_key('/pic'), methods=['GET', 'POST'])
 def pic_route():
-    owner = False
+    username = ""
     if request.method == 'GET':
         pic_id = request.args.get('id')
         cur = mysql.connection.cursor()
@@ -24,11 +24,9 @@ def pic_route():
                 if session_is_expired(session):
                     session.clear()
                     return render_template('sessionExpire.html', login=False)
-                elif access[0][1] == session['username']:
-                    owner = True
-                    renew_session(session)
                 else:
                     renew_session(session)
+                    username = session["username"]
                     cur.execute("SELECT username FROM AlbumAccess WHERE albumid=%s and username='%s'" % (
                         access[0][0], session['username']))
                     auth_user = cur.fetchall()
@@ -43,6 +41,7 @@ def pic_route():
                     session.clear()
                 else:
                     renew_session(session)
+                    username = session["username"]
                     if access[0][1] == session['username']:
                         owner = True
         login = False
@@ -77,8 +76,8 @@ def pic_route():
             "prev": prev,
             "next": nxt,
             "login": login,
-            "owner": owner,
-            "id": pic_id
+            "id": pic_id,
+            "username": username
         }
 
         return render_template("pic.html", **options)

@@ -1,14 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
-  <div class="col-xs-3">
-    <h3>Favorites: <span id="numFavorites"></span></h3>
+  {% if login %}
+  <div class="col-xs-2">
+    <p>Favorites: <span id="num-favorites"></span></p>
   </div>
   <div class="col-xs-2">
-    <button id="">
+    <p>Latest favorite user: <span id="latest-user"></span></p>
   </div>
-  <div class="col-xs-4">
+  <div class="col-xs-2">
+    <button class="btn btn-default" id="favorite-button"><span class="glyphicon glyphicon-heart"
+                                                               aria-hidden="true"></span></button>
   </div>
+  <div class="col-xs-3">
+  </div>
+  {% else %}
+  <div class="col-xs-9">
+  </div>
+  {% endif %}
   <div class="col-xs-3">
     <h1><a class="btn btn-default" href="./album?id={{albumid[0]}}" >Back to album</a></h1>
   </div>
@@ -40,6 +49,9 @@
 {% block extrascripts %}
     <script type="text/javascript">
         initCaption("{{ id }}");
+        {% if login %}
+        initFavorites("{{ id }}", "{{username}}")
+        {% endif %}
     </script>
 {% endblock %}
 {% endblock %}
