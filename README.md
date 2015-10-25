@@ -7,10 +7,10 @@
 
 
 ### Details:
-  - [Link For Running Version](http://eecs485-09.eecs.umich.edu:5888/sksnf4gf1or/pa2/)
+  - [Link For Running Version](http://eecs485-09.eecs.umich.edu:5888/sksnf4gf1or/pa3/)
 
 ### Deploy:
-  - `cd pa2/python/`
+  - `cd pa3/python/`
   - `virtualenv venv --distribute`
   - `source venv/bin/activate` (run for every new terminal window)
   - `pip install -r requirements.txt`
