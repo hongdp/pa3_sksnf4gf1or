@@ -1,3 +1,4 @@
+DROP TABLE Favorite;
 DROP TABLE Contain;
 DROP TABLE Photo;
 DROP TABLE AlbumAccess;
