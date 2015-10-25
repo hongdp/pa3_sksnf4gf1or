@@ -195,3 +195,116 @@ def pic_caption_post():
     response = json.jsonify(id=picid, status=201)
     response.status_code = 201
     return response
+
+
+@pic.route(append_key('/pic/favorites'), methods=['GET'])
+def pic_favorites_get():
+    '''
+    Expects URL query parameter with picid.
+    Returns JSON with the picture's current caption or error.
+    {
+        "id": "picid",
+        "num_favorites": ###,
+        "latest_favorite": "username"
+    }
+    {
+        "error": "error message",
+        "status": 422
+    }
+    '''
+    picid = request.args.get('id')
+    if picid is None:
+        response = json.jsonify(error='You did not provide an id parameter.', status=404)
+        response.status_code = 404
+        return response
+
+    query = "SELECT caption FROM Contain WHERE picid='%s';" % picid
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+    if len(results) == 0:
+        response = json.jsonify(error='Invalid id parameter. The picid does not exist.', status=422)
+        response.status_code = 422
+        return response
+    else:
+        query = "SELECT username FROM Favorite WHERE picid='%s';" % picid
+        cur.execute(query)
+        results = cur.fetchall()
+        num_favorites = len(results)
+        latest_favorite = ''
+        if num_favorites > 0:
+            latest_favorite = results[0][0]
+        response = json.jsonify(picid=picid, num_favorites=num_favorites, latest_favorite=latest_favorite, status=200)
+        response.status_code = 200
+        return response
+
+
+@pic.route(append_key('/pic/favorites'), methods=['POST'])
+def pic_favorites_post():
+    '''
+    Expects JSON POST of the format:
+    {
+        "id": "picid",
+        "username": "usernameofpersonwhofavorited"
+    }
+    Updates the caption and sends a response of the format
+    {
+        "id": "picid",
+        "status": 201
+    }
+    Or if an error occurs:
+    {
+        "error": "error message",
+        "status": 422
+    }
+    '''
+    req_json = request.get_json()
+
+    picid = req_json.get('id')
+    username = req_json.get('username')
+    if picid is None and username is None:
+        response = json.jsonify(error='You did not provide an id and username parameter.', status=404)
+        response.status_code = 404
+        return response
+    if picid is None:
+        response = json.jsonify(error='You did not provide an id parameter.', status=404)
+        response.status_code = 404
+        return response
+    if username is None:
+        response = json.jsonify(error='You did not provide a username parameter.', status=404)
+        response.status_code = 404
+        return response
+
+    query = "SELECT caption FROM Contain WHERE picid='%s';" % picid
+    con = mysql.connection
+    cur = con.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+    if len(results) == 0:
+        response = json.jsonify(error='Invalid id. The picid does not exist.', status=422)
+        response.status_code = 422
+        return response
+
+    query = "SELECT username FROM User WHERE username='%s';" % username
+    cur.execute(query)
+    results = cur.fetchall()
+    if len(results) == 0:
+        response = json.jsonify(error='Invalid username. The username does not exist.', status=422)
+        response.status_code = 422
+        return response
+
+    query = "SELECT favoriteid FROM Favorite WHERE picid='%s' and username='%s';" % (picid, username)
+    cur.execute(query)
+    results = cur.fetchall()
+    if len(results) > 0:
+        response = json.jsonify(error='The user has already favorited this photo.', status=403)
+        response.status_code = 403
+        return response
+
+    query = "INSERT INTO Favorite(picid, username) VALUES('%s', '%s');" % (picid, username)
+    cur.execute(query)
+    con.commit()
+
+    response = json.jsonify(id=picid, status=201)
+    response.status_code = 201
+    return response
