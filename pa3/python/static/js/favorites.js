@@ -1,4 +1,4 @@
-function Favorites(numElement, userElement, favoriteButton, picid, numFavorites, latestUser) {
+function Favorites(numElement, userElement, favoriteButton, picid,, numFavorites, latestUser) {
   this.numElement = numElement;
   this.userElement = userElement;
   this.picid = picid;
