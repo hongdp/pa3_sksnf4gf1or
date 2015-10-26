@@ -70,3 +70,13 @@ INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_t
 INSERT INTO Contain (albumid, picid, caption, sequencenum) VALUES ('3', 'world_WashingtonDC', 'world13', '13');
 
 INSERT INTO AlbumAccess (albumid, username) VALUES ('4', 'traveler');
+
+INSERT INTO Favorite (picid, username, date) VALUES ('football_s3','spacejunkie','2015-10-05 22:23:23');
+INSERT INTO Favorite (picid, username, date) VALUES ('football_s3','sportslover','2015-10-05 21:23:23');
+INSERT INTO Favorite (picid, username, date) VALUES ('football_s2','spacejunkie','2015-10-05 23:23:35');
+INSERT INTO Favorite (picid, username, date) VALUES ('football_s2','sportslover','2015-10-05 23:45:35');
+INSERT INTO Favorite (picid, username, date) VALUES ('football_s2','traveler','2015-10-05 21:10:35');
+INSERT INTO Favorite (picid, username, date) VALUES ('football_s1','traveler','2015-10-05 23:10:35');
+INSERT INTO Favorite (picid, username, date) VALUES ('football_s1','spacejunkie','2015-10-05 23:15:35');
+
+UPDATE Contain SET caption='What do you want me to do?' WHERE picid='football_s3';
