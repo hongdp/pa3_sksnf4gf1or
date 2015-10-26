@@ -52,8 +52,8 @@ create table Favorite (
     username varchar(20) not null,
     date timestamp default current_timestamp,
 
-    foreign key (picid) references Photo (picid),
-    foreign key (username) references User (username)
+    foreign key (picid) references Photo (picid) ON DELETE CASCADE,
+    foreign key (username) references User (username) ON DELETE CASCADE
 );
 
 DELIMITER $$
