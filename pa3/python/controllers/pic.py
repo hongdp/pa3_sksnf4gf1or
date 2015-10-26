@@ -226,7 +226,7 @@ def pic_favorites_get():
         response.status_code = 422
         return response
     else:
-        query = "SELECT username FROM Favorite WHERE picid='%s';" % picid
+        query = "SELECT username FROM Favorite WHERE picid='%s' ORDER BY date DESC;" % picid
         cur.execute(query)
         results = cur.fetchall()
         num_favorites = len(results)

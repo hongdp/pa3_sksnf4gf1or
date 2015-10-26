@@ -20,8 +20,11 @@ Favorites.prototype.change = function(ret) {
 }
 
 Favorites.prototype.update = function() {
+  var local_pic_id = this.picid;
+  var change_function = this.change.bind(this);
   makeFavoritesPostRequest(this.picid, this.username, function() {
     console.log('POST successful.');
+    makeFavoritesRequest(local_pic_id, change_function);
   });
 }
 
@@ -49,9 +52,9 @@ function makeFavoritesRequest(picid, cb) {
 function initFavorites(picid, username) {
   var num_favorites = document.getElementById("num-favorites");
   var user_favorites = document.getElementById("user-favorites");
-  var favorite_bottom = document.getElementById("favorite-bottom");
+  var favorite_bottom = document.getElementById("favorite-button");
 
-  var favoritesBinding = new Caption(num_favorites, user_favorites, favorite_bottom, picid, username);
+  var favoritesBinding = new Favorites(num_favorites, user_favorites, favorite_bottom, picid, username);
 
   makeFavoritesRequest(picid, function(resp) {
     favoritesBinding.change(resp);

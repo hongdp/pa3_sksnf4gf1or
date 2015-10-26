@@ -1,57 +1,62 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="row">
-  {% if login %}
-  <div class="col-xs-2">
-    <p>Favorites: <span id="num-favorites"></span></p>
-  </div>
-  <div class="col-xs-2">
-    <p>Latest favorite user: <span id="latest-user"></span></p>
-  </div>
-  <div class="col-xs-2">
-    <button class="btn btn-default" id="favorite-button"><span class="glyphicon glyphicon-heart"
-                                                               aria-hidden="true"></span></button>
-  </div>
-  <div class="col-xs-3">
-  </div>
-  {% else %}
-  <div class="col-xs-9">
-  </div>
-  {% endif %}
-  <div class="col-xs-3">
-    <h1><a class="btn btn-default" href="./album?id={{albumid[0]}}" >Back to album</a></h1>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-        <img class="img-responsive img-with-max-size" src="{{url[0]}}" alt="">
+    <div class="col-xs-9">
     </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <div>
-        <label for="pwd">Caption:</label>
-        <input id="caption" type="text" class="form-control" name="caption" value="{{caption}}">
-      </div>
+    <div class="col-xs-3">
+        <h1><a class="btn btn-default" href="./album?id={{albumid[0]}}">Back to album</a></h1>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-6">
-      <a class="btn btn-primary {% if not prev %}disabled{% endif %}" href="./pic?id={{prev}}"
-         style="float:left">Prev</a>
+    <div class="row">
+        <div class="col-xs-12">
+            <img class="img-responsive img-with-max-size" src="{{url[0]}}" alt="">
+        </div>
     </div>
-    <div class="col-xs-6">
-      <a class="btn btn-primary {% if not next %}disabled{% endif %}" href="./pic?id={{next}}"
-         style="float:right">Next</a>
+    <div class="row">
+        <div class="col-xs-12">
+            <div>
+                <label for="pwd">Caption:</label>
+                <input id="caption" type="text" class="form-control" name="caption" value="{{caption}}">
+            </div>
+        </div>
     </div>
-  </div>
+    {% if login %}
+    <div class="row">
+        <div class="col-xs-3">
+            <h3>Favorites: <span id="num-favorites"></span></h3>
+        </div>
+        <div class="col-xs-5">
+            <h3>Latest favorite user: <span id="user-favorites"></span></h3>
+        </div>
+        <div class="col-xs-3">
+            <h1>
+                <button class="btn btn-default" id="favorite-button"><span class="glyphicon glyphicon-heart"
+                                                                           aria-hidden="true"></span></button>
+            </h1>
+        </div>
+        <div class="col-xs-1">
+        </div>
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-xs-6">
+            <a class="btn btn-primary {% if not prev %}disabled{% endif %}" href="./pic?id={{prev}}"
+               style="float:left">Prev</a>
+        </div>
+        <div class="col-xs-6">
+            <a class="btn btn-primary {% if not next %}disabled{% endif %}" href="./pic?id={{next}}"
+               style="float:right">Next</a>
+        </div>
+    </div>
 </div>
 
 {% block extrascripts %}
-    <script type="text/javascript">
+<script type="text/javascript">
         initCaption("{{ id }}");
         {% if login %}
         initFavorites("{{ id }}", "{{username}}")
         {% endif %}
-    </script>
+
+
+</script>
 {% endblock %}
 {% endblock %}
