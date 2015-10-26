@@ -233,7 +233,7 @@ def pic_favorites_get():
         latest_favorite = ''
         if num_favorites > 0:
             latest_favorite = results[0][0]
-        response = json.jsonify(picid=picid, num_favorites=num_favorites, latest_favorite=latest_favorite, status=200)
+        response = json.jsonify(id=picid, num_favorites=num_favorites, latest_favorite=latest_favorite)
         response.status_code = 200
         return response
 
