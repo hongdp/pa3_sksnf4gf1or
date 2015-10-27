@@ -4,7 +4,7 @@ function Favorites(numElement, userElement, favoriteButton, picid, username) {
   this.favoriteButton = favoriteButton;
   this.picid = picid;
   this.username = username;
-  favoriteButton.addEventListener("click", this, false);
+  this.favoriteButton || favoriteButton.addEventListener("click", this, false);
 }
 
 
