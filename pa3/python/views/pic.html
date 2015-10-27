@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    {% if login %}
+
     <div class="row">
         <div class="col-xs-3">
             <h3>Favorites: <span id="num-favorites"></span></h3>
@@ -28,15 +28,16 @@
             <h3>Latest favorite user: <span id="user-favorites"></span></h3>
         </div>
         <div class="col-xs-3">
+            {% if login %}
             <h1>
                 <button class="btn btn-default" id="favorite-button"><span class="glyphicon glyphicon-heart"
                                                                            aria-hidden="true"></span></button>
             </h1>
+            {% endif %}
         </div>
         <div class="col-xs-1">
         </div>
     </div>
-    {% endif %}
     <div class="row">
         <div class="col-xs-6">
             <a class="btn btn-primary {% if not prev %}disabled{% endif %}" href="./pic?id={{prev}}"
