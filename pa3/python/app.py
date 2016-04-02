@@ -11,6 +11,7 @@ app.register_blueprint(controllers.pic)
 app.register_blueprint(controllers.login)
 app.register_blueprint(controllers.user)
 app.register_blueprint(controllers.useredit)
+app.register_blueprint(controllers.search)
 app.secret_key = '\xfc\x9c\x90\xf0\r9\x88\xf6D\xc1\n\x96]\x7fzO8\x88O?\xa7b\xb9\xe1'
 
 
